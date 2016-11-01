@@ -36,5 +36,10 @@ class Document
 
     public function jsonSerialize()
     {
+        return [
+            'template' => (bool) $this->template,
+            'name' => $this->name,
+            'tables' => $this->table->jsonSerialize(),
+        ];
     }
 }

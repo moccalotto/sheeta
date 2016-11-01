@@ -223,4 +223,8 @@ class Column
     {
          return $this->getOrSet(func_num_args(), 'oneOf', $value);
     }
+
+    public function save()
+    {
+    }
 }
