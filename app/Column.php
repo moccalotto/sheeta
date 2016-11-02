@@ -57,11 +57,14 @@ class Column
         return $this;
     }
 
+    public static function fromArray(array $columnArray)
+    {
+        return new static($columnArray);
+    }
+
     public function __construct(array $settings)
     {
-        Ensure::that($settings)
-            ->as('settings')
-            ->hasKey('name');
+        Ensure::that($settings)->as('settings')->hasKey('name');
 
         foreach ($this as $key => $value) {
             $this->defaults[$key] = $value;
@@ -113,11 +116,14 @@ class Column
         return sprintf($this->format, $value);
     }
 
-    public function jsonSerialize()
+    public function toArray() : array
     {
         $return = [];
 
         foreach ($this as $key => $value) {
+            if ($key === 'defaults') {
+                continue;
+            }
             if ($value !== $this->defaults[$key]) {
                 $return[$key] = $value;
             }
@@ -222,9 +228,5 @@ class Column
     public function oneOf(array $value = null)
     {
          return $this->getOrSet(func_num_args(), 'oneOf', $value);
-    }
-
-    public function save()
-    {
     }
 }

@@ -19,6 +19,11 @@ class Row
         Ensure::that($this->cells)->as('Cell')->hasKey($index);
     }
 
+    public static function fromArray(array $cells)
+    {
+        return new static(array_map('strval', $cells));
+    }
+
     /**
      * Constructor
      *
@@ -79,7 +84,7 @@ class Row
      *
      * @return array
      */
-    public function jsonSerialize() : array
+    public function toArray() : array
     {
         return $this->cells;
     }

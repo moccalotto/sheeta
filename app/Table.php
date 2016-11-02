@@ -36,6 +36,26 @@ class Table
      */
     protected $rows = [];
 
+    public static function fromArray(array $tableArray)
+    {
+        $table = new Table();
+
+        $table->name = $tableArray['name'];
+        $table->rowsMin = $tableArray['rowsMin'] ?? null;
+        $table->rowsMax = $tableArray['rowsMax'] ?? null;
+        $table->headlineVisible = $tableArray['headlineVisible'] ?? true;
+
+        foreach ($tableArray['columns'] as $columnArray) {
+            $table->columns[] = Column::fromArray((array) $columnArray);
+        }
+
+        foreach ($tableArray['rows'] as $rowArray) {
+            $table->rows[] = Row::fromArray((array) $rowArray);
+        }
+
+        return $table;
+    }
+
     public function insertColumn(Column $column, $index = null)
     {
         if ($index === null) {
@@ -66,7 +86,7 @@ class Table
 
     public function createRow()
     {
-        return new Row(range(0, count($this->columns) - 1));
+        return Row::fromArray(array_fill(0, count($this->columns) - 1, ''));
     }
 
     public function insertRow($index = null)
@@ -100,7 +120,7 @@ class Table
         $row->setCell($rowIndex, $normalizedValue);
     }
 
-    public function jsonSerialize()
+    public function toArray() : array
     {
         return [
             'name' => $this->name,
@@ -108,10 +128,10 @@ class Table
             'rowsMax' => $this->rowsMax,
             'headlineVisible' => $this->headlineVisible,
             'columns' => array_map(function ($col) {
-                return $col->jsonSerialize();
+                return $col->toArray();
             }, $this->columns),
             'rows' => array_map(function ($row) {
-                return $row->jsonSerialize();
+                return $row->toArray();
             }, $this->rows),
         ];
     }
