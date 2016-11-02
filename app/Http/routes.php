@@ -11,6 +11,6 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$app->get('/', function (MongoDB\Database $db) use ($app) {
+    dd($db->Sheets->find());
 });

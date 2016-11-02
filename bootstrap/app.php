@@ -47,6 +47,19 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+$app->singleton(MongoDB\Client::class, function ($app) {
+    return new MongoDB\Client(config('mongo.dsn'));
+});
+
+$app->singleton(MongoDB\Database::class, function ($app) {
+    $client = $app->make(MongoDB\Client::class);
+    return $client->selectDatabase(config('mongo.database'));
+});
+
+$app->alias(MongoDB\Client::class, 'mongo.client');
+$app->alias(MongoDB\Database::class, 'mongo.db');
+$app->alias(MongoDB\Database::class, 'mongo');
+
 
 /*
 |--------------------------------------------------------------------------
