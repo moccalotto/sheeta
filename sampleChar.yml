@@ -1,4 +1,5 @@
 name: FoobarBaz
+template: false
 tables:
   - name: Core Data
     headlineVisible: false
