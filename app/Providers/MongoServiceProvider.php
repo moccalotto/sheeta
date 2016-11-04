@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Util\Mongo;
-use MongoDB\Driver\Manager;
+use MongoDB\Client;
+use MongoDB\Database;
 use Illuminate\Support\ServiceProvider;
 
 class MongoServiceProvider extends ServiceProvider
@@ -25,22 +25,20 @@ class MongoServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Mongo::class, function ($app) {
-            return new Mongo(
-                $app->make(Manager::class),
-                $app['config']->get('mongodb.db')
-            );
-        });
-
-        $this->app->singleton(Manager::class, function ($app) {
+        $this->app->singleton(Client::class, function ($app) {
             $config = $app['config'];
-            return new Manager(
+            return new Client(
                 $config->get('mongodb.uri'),
                 $config->get('mongodb.options', []),
                 $config->get('mongodb.driverOptions', [])
             );
         });
 
-        $this->app->bind('mongo', Mongo::class);
+        $this->app->singleton(Database::class, function ($app) {
+            $db = $app['config']->get('mongodb.db');
+            return $app->make(Client::class)->$db;
+        });
+
+        $this->app->bind('mongo', Database::class);
     }
 }

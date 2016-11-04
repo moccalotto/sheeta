@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use Ensure;
+use App\Sheet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Sheet;
 
 class SheetController extends Controller
 {
@@ -31,7 +32,7 @@ class SheetController extends Controller
      */
     public function show($id)
     {
-        $sheet = Sheet::find($id);
+        $sheet = Sheet::findOrFail($id);
 
         if (!$sheet) {
             abort(404);
@@ -49,7 +50,15 @@ class SheetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $sheet = Sheet::findOrFail($id);
+
+        $sheet->name = (string) $request->get('name', $sheet->name);
+        $sheet->template = (bool) $request->get('template', $sheet->template);
+
+        Ensure::that($sheet->name)->as('name')->isString();
+        Ensure::that($sheet->name)->as('name')->isBoolean();
+
+        return collect($sheet)->only(['id', 'name', 'template']);
     }
 
     /**
@@ -60,6 +69,6 @@ class SheetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return (array) Sheet::write()->deleteOne(['_id' => $id]);
     }
 }

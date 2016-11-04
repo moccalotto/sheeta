@@ -12,5 +12,5 @@
 */
 
 Route::get('/{param?}', function ($param = false) {
-    return redirect('index.html');
+    return 'pølle';
 });

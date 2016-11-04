@@ -38,6 +38,12 @@ class MongoWriter
         return $this;
     }
 
+    public function update(array $filter, $document, array $options = [])
+    {
+        $this->bulkWrite->update($filter, $document, $options);
+        return $this;
+    }
+
     public function count()
     {
         return $this->bulkWrite->count();

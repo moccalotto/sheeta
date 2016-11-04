@@ -2,12 +2,12 @@
 
 namespace App;
 
-use RuntimeException;
 use MongoDB\BSON\ObjectID;
-use MongoDB\BSON\Unserializable;
+use MongoDB\BSON\Persistable;
 use Moccalotto\Valit\Facades\Ensure;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Sheet implements Unserializable
+class Sheet implements Persistable
 {
     /**
      * @var ObjectID
@@ -30,44 +30,26 @@ class Sheet implements Unserializable
 
     public static function collection()
     {
-        return 'Sheets';
-    }
-
-    public static function writer()
-    {
-        return app('mongo')->write(static::collection());
-    }
-
-    public static function query(array $filter, array $queryOptions = [])
-    {
-        return app('mongo')->query(static::collection(), $filter, $queryOptions);
+        return app('mongo')->selectCollection(
+            'Sheets',
+            ['typeMap' => ['root' => 'array', 'document' => 'array', 'array' => 'array']]
+        );
     }
 
     public static function find($id)
     {
-        if (!$id instanceof ObjectID) {
-            $id = new ObjectID((string) $id);
-        }
-        $cursor = static::query(['_id' => $id, ]);
-
-        $cursor->setTypeMap([
-            'root' => static::class,
-            'document' => 'array',
-            'array' => 'array',
+        $docArray = static::collection()->findOne([
+            '_id' => is_string($id) ? new ObjectID($id) : $id,
         ]);
 
-        // return the first element if any.
-        // otherwise return null.
-        foreach ($cursor as $entity) {
-            return $entity;
-        }
+        return $found ? static::fromArray($docArray) : null;
     }
 
     public static function findOrFail($id)
     {
-        $entity = static::find($id);
+        $entity = $this->find($id);
         if (!$entity) {
-            throw new RuntimeException('Entity not found');
+            throw new NotFoundHttpException('Entity not found');
         }
     }
 
@@ -135,27 +117,21 @@ class Sheet implements Unserializable
         ];
     }
 
-    public function toArrayForMongo() : array
+    public function bsonSerialize() : array
     {
         $data = $this->toArray();
         unset($data['id']);
-        return [
-            '_id' => $this->id,
-            'template' => (bool) $this->template,
-            'name' => $this->name,
-            'tables' => array_map(function ($table) {
-                return $table->toArray();
-            }, $this->tables),
-        ];
+        $data['_id'] = $this->id;
+
+        return $data;
     }
 
     public function save()
     {
-        return $this->writer()->update(
+        return $this->collection()->updateOne(
             ['_id' => $this->id, ],
-            $this->toArrayForMongo(),
-            ['multi' => false, 'upsert' => true]
-        )->execute();
+            $this,
+            ['upsert' => true]
+        );
     }
-
 }
