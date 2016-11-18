@@ -3,11 +3,10 @@
 namespace App;
 
 use MongoDB\BSON\ObjectID;
-use MongoDB\BSON\Persistable;
 use Moccalotto\Valit\Facades\Ensure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Sheet implements Persistable
+class Sheet
 {
     /**
      * @var ObjectID
