@@ -1,57 +1,66 @@
-name: FoobarBaz
-allowCopy: false  # should we allow people to copy this and use it for themselves ?
-owner: "id of owner"
+headline: FoobarBaz
+allow_copy: false  # should we allow people to copy this and use it for themselves ?
 tables:
   - headline: Core Data
-    headlineVisible: false
-    rowsMin: 3
-    rowsMax: 3
+    visible_headline: false
+    rows_min: 3
+    rows_max: 3
     columns:
       - headline: key
         readonly: true
+        width: 3
       - headline: value
+        max_length: 30
+        width: 9
     rows:
       - [Name, Harall]
       - [Player, Kim]
       - [Discipline, Troubardour]
       - [Race, Dwarf]
   - headline: Defenses
-    rowsMin: 3
-    rowsMax: 3
+    rows_min: 3
+    rows_max: 3
     columns:
       - headline: Defense
         readonly: true
+        width: 3
       - headline: Score
+        width: 9
         format: "%d"
-        min: 1
-        max: 15
+        validation: '^\d+$'
+        min_value: 1
+        max_value: 15
     rows:
       - [Physical, 9]
       - [Spell, 9]
       - [Social, 9]
   - headline: Attributes
-    headlineVisible: true
-    rowsMin: 6
-    rowsMax: 6
+    visible_headline: true
+    rows_min: 6
+    rows_max: 6
     columns:
       - headline: Attribute
         readonly: true
       - headline: Initial Score
         format: "%d"
-        min: 3
-        max: 25
+        validation: '^\d+$'
+        min_value: 3
+        max_value: 25
       - headline: Increments
         format: "%d"
-        min: 0
-        max: 3
+        validation: '^\d+$'
+        min_value: 0
+        max_value: 3
       - headline: Current Score
         format: "%d"
-        min: 3
-        max: 28
+        validation: '^\d+$'
+        min_value: 3
+        max_value: 28
       - headline: step
         format: "%d"
-        min: 1
-        max: 15
+        validation: '^\d+$'
+        min_value: 1
+        max_value: 15
     rows:
       - [Dexterity, 15, 1, 16, 7]
       - [Strength, 10, 0, 10, 5]

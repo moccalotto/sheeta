@@ -1,6 +1,8 @@
 <?php
 
+use App\Sheet;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Yaml\Yaml;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $sheetData = Yaml::parse(file_get_contents(base_path('sampleChar.yml')));
+
+        Sheet::forceCreate($sheetData);
     }
 }
