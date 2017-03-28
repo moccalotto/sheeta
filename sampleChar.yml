@@ -1,5 +1,5 @@
 name: FoobarBaz
-template: false
+isTemplate: false  # should we allow people to copy this and use it for themselves ?
 tables:
   - name: Core Data
     headlineVisible: false

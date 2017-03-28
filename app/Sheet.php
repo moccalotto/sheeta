@@ -3,11 +3,10 @@
 namespace App;
 
 use MongoDB\BSON\ObjectID;
-use MongoDB\BSON\Persistable;
 use Moccalotto\Valit\Facades\Ensure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Sheet implements Persistable
+class Sheet
 {
     /**
      * @var ObjectID
@@ -27,31 +26,6 @@ class Sheet implements Persistable
      * @var Table[]
      */
     protected $tables = [];
-
-    public static function collection()
-    {
-        return app('mongo')->selectCollection(
-            'Sheets',
-            ['typeMap' => ['root' => 'array', 'document' => 'array', 'array' => 'array']]
-        );
-    }
-
-    public static function find($id)
-    {
-        $docArray = static::collection()->findOne([
-            '_id' => is_string($id) ? new ObjectID($id) : $id,
-        ]);
-
-        return $found ? static::fromArray($docArray) : null;
-    }
-
-    public static function findOrFail($id)
-    {
-        $entity = $this->find($id);
-        if (!$entity) {
-            throw new NotFoundHttpException('Entity not found');
-        }
-    }
 
     public static function fromArray(array $docArray)
     {
