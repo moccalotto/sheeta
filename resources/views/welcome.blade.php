@@ -1,1 +1,0 @@
-WEEEELCOME {{ app()->version() }}
