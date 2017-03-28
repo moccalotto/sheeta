@@ -5,7 +5,9 @@
  */
 Route::get('/', 'WebController@home');
 
-/*
- * Display a single sheet.
- */
-Route::get('{$id}', 'WebController@sheet');
+
+// spa routes:
+//
+// #/{sheetId} - show sheet
+// #/{sheetId}/edit - show sheet in edit mode
+// #/{sheetId}/addTable - create a new table for the sheet.
