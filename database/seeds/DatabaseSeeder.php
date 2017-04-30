@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $sheetData = Yaml::parse(file_get_contents(base_path('sampleChar.yml')));
 
-        Sheet::forceCreate($sheetData);
+        factory(Sheet::class)->create($sheetData);
     }
 }
