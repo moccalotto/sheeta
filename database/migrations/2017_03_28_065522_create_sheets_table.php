@@ -19,6 +19,8 @@ class CreateSheetsTable extends Migration
             $table->integer('version')->default(1); // optimistic locking.
             $table->string('headline');
             $table->boolean('allow_copy')->default(false);
+            $table->integer('clone_count')->default(0);
+            $table->integer('clone_level')->default(0);
             $table->text('tables');
             $table->timestamps();
 

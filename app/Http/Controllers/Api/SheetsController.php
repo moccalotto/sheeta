@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use DB;
 use Validator;
 use Exception;
 use App\Sheet;
@@ -13,6 +14,7 @@ class SheetsController extends Controller
     public function search()
     {
         // find sheets by headline and/or user-id
+        return Sheet::all();
     }
 
     public function get(Sheet $sheet)
@@ -119,17 +121,23 @@ class SheetsController extends Controller
         }
 
         try {
-            $attributes = [
-                'headline' => $sheet->headline,
-                'user_id' => $request->user()->id,
-                'tables' => $sheet->tables,
-                'allow_copy' => $sheet->allow_copy,
-                'version' => 1,
-            ];
+            $clone = DB::transaction(function () use ($sheet, $request) {
+                $attributes = [
+                    'headline' => $sheet->headline,
+                    'user_id' => $request->user()->id,
+                    'tables' => $sheet->tables,
+                    'allow_copy' => $sheet->allow_copy,
+                    'clone_level' => $sheet->clone_level + 1,
+                    'version' => 1,
+                ];
 
-            $sheet = Sheet::forceCreate($attributes);
+                $sheet->clone_count++;
+                $sheet->save();
 
-            return response()->json($sheet, 201);
+                return Sheet::forceCreate($attributes);
+            });
+
+            return response()->json($clone, 201);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'Clone Failed',
