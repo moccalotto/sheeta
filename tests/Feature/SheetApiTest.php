@@ -38,7 +38,12 @@ class SheetApiTest extends TestCase
 
         $response->assertStatus(201);
 
-        $response->assertJson($sheetRaw);
+        $response->assertJson([
+            'version' => 1,
+            'allow_clone' => $sheetRaw['allow_clone'],
+            'headline' => $sheetRaw['headline'],
+            'tables' => $sheetRaw['tables'],
+        ]);
     }
 
     /**
@@ -83,7 +88,7 @@ class SheetApiTest extends TestCase
 
         $response->assertJson([
             'headline' => $sheet->headline,
-            'allow_copy' => $sheet->allow_copy,
+            'allow_clone' => $sheet->allow_clone,
             'tables' => $sheet->tables,
         ]);
     }

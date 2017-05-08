@@ -1,5 +1,5 @@
 headline: FoobarBaz
-allow_copy: false  # should we allow people to copy this and use it for themselves ?
+allow_clone: false  # should we allow people to copy this and use it for themselves ?
 tables:
   - headline: Core Data
     visible_headline: false

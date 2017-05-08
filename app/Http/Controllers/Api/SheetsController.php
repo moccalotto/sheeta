@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use DB;
 use Validator;
 use Exception;
 use App\Sheet;
@@ -11,12 +10,21 @@ use App\Http\Controllers\Controller;
 
 class SheetsController extends Controller
 {
-    public function search()
+    /**
+     * Search for sheets.
+     */
+    public function search(Request $request)
     {
-        // find sheets by headline and/or user-id
-        return Sheet::all();
+        return Sheet::where(
+            'headline',
+            'like',
+            preg_replace('/^|$|\s+/u', '%', $request->input('headline'))
+        )->get();
     }
 
+    /**
+     * Get a single sheet.
+     */
     public function get(Sheet $sheet)
     {
         return $sheet;
@@ -32,7 +40,7 @@ class SheetsController extends Controller
         }
         $validation = [
             'headline' => 'string|max:255',
-            'allow_copy' => 'boolean',
+            'allow_clone' => 'boolean',
             'tables' => 'array',
             'version' => 'required|int',
         ];
@@ -61,6 +69,7 @@ class SheetsController extends Controller
         try {
             $sheet->headline = $request->input('headline', $sheet->headline);
             $sheet->tables = $request->input('tables', $sheet->tables);
+            $sheet->allow_clone = $request->input('allow_clone', $sheet->allow_clone);
             $sheet->version++;
 
             return response()->json($sheet, 200);
@@ -76,7 +85,7 @@ class SheetsController extends Controller
     {
         $validation = [
             'headline' => 'required|string|max:255',
-            'allow_copy' => 'boolean',
+            'allow_clone' => 'boolean',
             'tables' => 'array',
             'version' => 'nullable|int|size:1'
         ];
@@ -94,7 +103,7 @@ class SheetsController extends Controller
             $attributes = [
                 'headline' => $request->input('headline'),
                 'user_id' => $request->user()->id,
-                'allow_copy' => $request->input('allow_copy', 1),
+                'allow_clone' => $request->input('allow_clone', 1),
                 'version' => 1,
                 'tables' => $request->input('tables', []),
 
@@ -113,7 +122,7 @@ class SheetsController extends Controller
 
     public function clone(Request $request, Sheet $sheet)
     {
-        if (!($sheet->allow_copy || $request->user()->id === $sheet->user_id)) {
+        if (!$sheet->canBeClonedBy($request->user())) {
             return response()->json([
                 'error' => 'Denied',
                 'message' => 'Sheet can only be copied by its owner'
@@ -121,21 +130,7 @@ class SheetsController extends Controller
         }
 
         try {
-            $clone = DB::transaction(function () use ($sheet, $request) {
-                $attributes = [
-                    'headline' => $sheet->headline,
-                    'user_id' => $request->user()->id,
-                    'tables' => $sheet->tables,
-                    'allow_copy' => $sheet->allow_copy,
-                    'clone_level' => $sheet->clone_level + 1,
-                    'version' => 1,
-                ];
-
-                $sheet->clone_count++;
-                $sheet->save();
-
-                return Sheet::forceCreate($attributes);
-            });
+            $clone = $sheet->createClone($request->user());
 
             return response()->json($clone, 201);
         } catch (Exception $e) {

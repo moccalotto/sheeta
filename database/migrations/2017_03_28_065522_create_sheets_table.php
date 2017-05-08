@@ -16,9 +16,10 @@ class CreateSheetsTable extends Migration
         Schema::create('sheets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('original_id')->unsigned()->nullable();
             $table->integer('version')->default(1); // optimistic locking.
             $table->string('headline');
-            $table->boolean('allow_copy')->default(false);
+            $table->boolean('allow_clone')->default(false);
             $table->integer('clone_count')->default(0);
             $table->integer('clone_level')->default(0);
             $table->text('tables');
@@ -27,6 +28,10 @@ class CreateSheetsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
+
+            $table->foreign('original_id')
+                ->references('id')
+                ->on('sheets');
         });
     }
 

@@ -27,7 +27,7 @@ $factory->define(App\Sheet::class, function (Faker\Generator $faker) {
     return [
         'headline' => $faker->name,
         'version' => $faker->randomDigit,
-        'allow_copy' => $faker->boolean,
+        'allow_clone' => $faker->boolean,
         'user_id' => function () {
             return factory(App\User::class)->create()->id;
         },
