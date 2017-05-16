@@ -8,10 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SheetClassTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function it_can_be_created()
+    public function testTrue()
     {
         $this->assertTrue(true);
     }

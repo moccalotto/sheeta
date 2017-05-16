@@ -16,6 +16,15 @@ class SheetApiTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function testMustHaveApiToken()
+    {
+        $response = $this->json('POST', 'api/sheets', []);
+
+        die(($response->__toString()));
+        $response->assertStatus(401);
+    }
+
+
     /**
      * Test the creation of a sheet.
      *
