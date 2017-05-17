@@ -20,9 +20,37 @@ class SheetApiTest extends TestCase
     {
         $response = $this->json('POST', 'api/sheets', []);
 
-        die(($response->__toString()));
         $response->assertStatus(401);
     }
+
+    /**
+     * Ensure that the response code is correct if an entity cannot be found.
+     */
+    public function testSaneErrorIfSheetNotFound()
+    {
+        $user = factory(User::class)->create();
+
+        $this->json(
+            'GET',
+            sprintf('api/sheets/42?api_token=%s', $user->api_token)
+        )->assertStatus(404)
+        ->assertJsonStructure(['error']);
+
+        $this->json(
+            'PUT',
+            sprintf('api/sheets/42?api_token=%s', $user->api_token),
+            []
+        )->assertStatus(404)
+        ->assertJsonStructure(['error']);
+
+        $this->json(
+            'PUT',
+            sprintf('api/sheets/foo?api_token=%s', $user->api_token),
+            []
+        )->assertStatus(404)
+        ->assertJsonStructure(['error']);
+    }
+
 
 
     /**
