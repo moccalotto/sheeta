@@ -90,7 +90,11 @@ class SheetApiTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $sheet = factory(Sheet::class)->create(['version' => 1, 'user_id' => $user->id]);
+        $sheet = factory(Sheet::class)->create([
+            'version' => 1,
+            'user_id' => $user->id,
+            'allow_view' => true,
+        ]);
 
         $response = $this->json(
             'GET',
@@ -114,7 +118,11 @@ class SheetApiTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $sheet = factory(Sheet::class)->create(['version' => 1, 'user_id' => $user->id]);
+        $sheet = factory(Sheet::class)->create([
+            'version' => 1,
+            'user_id' => $user->id,
+            'allow_clone' => true,
+        ]);
 
         $response = $this->json(
             'POST',

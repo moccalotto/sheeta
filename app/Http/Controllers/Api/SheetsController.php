@@ -30,16 +30,13 @@ class SheetsController extends Controller
         return $sheet;
     }
 
+    /**
+     * Update a sheet
+     */
     public function put(Request $request, Sheet $sheet)
     {
-        if ($request->user()->id !== $sheet->user_id) {
-            return response()->json([
-                'error' => 'Denied',
-                'message' => 'Sheet can only be modified by its owner'
-            ], 403);
-        }
         $validation = [
-            'headline' => 'string|max:255',
+            'headline' => 'string|max:60',
             'allow_clone' => 'boolean',
             'tables' => 'array',
             'version' => 'required|int',
@@ -84,7 +81,7 @@ class SheetsController extends Controller
     public function post(Request $request)
     {
         $validation = [
-            'headline' => 'required|string|max:255',
+            'headline' => 'required|string|max:60',
             'allow_clone' => 'boolean',
             'tables' => 'array',
             'version' => 'nullable|int|size:1'
@@ -122,13 +119,6 @@ class SheetsController extends Controller
 
     public function clone(Request $request, Sheet $sheet)
     {
-        if (!$sheet->canBeClonedBy($request->user())) {
-            return response()->json([
-                'error' => 'Denied',
-                'message' => 'Sheet can only be copied by its owner'
-            ], 403);
-        }
-
         try {
             $clone = $sheet->createClone($request->user());
 

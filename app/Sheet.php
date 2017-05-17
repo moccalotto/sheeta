@@ -12,8 +12,10 @@ class Sheet extends Model
      * @var array
      */
     protected $casts = [
+        'id' => 'integer',
         'tables' => 'array',
         'allow_clone' => 'boolean',
+        'allow_view' => 'boolean',
         'version' => 'integer',
         'user_id' => 'integer',
         'original_id' => 'integer',
@@ -82,6 +84,8 @@ class Sheet extends Model
                 'allow_clone' => $this->allow_clone,
                 'clone_level' => $this->clone_level + 1,
                 'version' => 1,
+                'allow_clone' => $this->allow_clone,
+                'allow_view' => $this->allow_view,
             ];
 
             $this->clone_count++;

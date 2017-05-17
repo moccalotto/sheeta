@@ -14,9 +14,7 @@ class SheetCloneTest extends TestCase
 
     public function testCanClone()
     {
-        $sheet = factory(Sheet::class)->create([
-            'allow_clone' => true,
-        ]);
+        $sheet = factory(Sheet::class)->create();
 
         $newUser = factory(User::class)->create();
 
