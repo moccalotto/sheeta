@@ -4,7 +4,13 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -14,12 +20,12 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        AuthenticationException::class,
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        TokenMismatchException::class,
+        ValidationException::class,
     ];
 
     /**
@@ -45,7 +51,21 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         $response = parent::render($request, $exception);
-        return response()->json($response->getStatusCode());
+
+        $messageMap = [
+            AuthenticationException::class  => 'Unauthenticated',
+            AuthorizationException::class   => 'Unauthorized',
+            ModelNotFoundException::class   => 'Item Not Found',
+            NotFoundHttpException::class    => 'Item Not Found',
+            TokenMismatchException::class   => 'Invalid Token',
+            ValidationException::class      => 'Invalid Request Data',
+        ];
+
+        $message = $messageMap[get_class($exception)] ?? $exception->getMessage();
+
+        return response()->json([
+            'error' => $message,
+        ], $response->getStatusCode());
     }
 
     /**
@@ -54,6 +74,8 @@ class Handler extends ExceptionHandler
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Auth\AuthenticationException  $exception
      * @return \Illuminate\Http\Response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
