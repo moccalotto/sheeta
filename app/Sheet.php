@@ -35,6 +35,17 @@ class Sheet extends Model
      */
     protected $with = ['user'];
 
+    /**
+     * @var array
+     */
+    protected $appends = ['slug'];
+
+
+    public function getSlugAttribute()
+    {
+        return str($this->headline)->slug()->string();
+    }
+
     public function canBeClonedBy(User $user)
     {
         if ($this->allow_clone) {

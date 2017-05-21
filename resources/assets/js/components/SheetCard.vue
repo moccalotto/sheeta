@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <div class="title">
-            <router-link :to="`/sheets/${sheet.id}/${sluggedHeadline}`">{{ sheet.headline }}</router-link>
+            <router-link :to="`/sheets/${sheet.id}/${sheet.slug}`">{{ sheet.headline }}</router-link>
         </div>
         <p>
             Created <relative-date :date="sheet.created_at"></relative-date> by
@@ -19,10 +19,5 @@
 <script>
     export default {
         props: ['sheet'],
-        computed: {
-            sluggedHeadline() {
-                return slug(this.sheet.headline);
-            }
-        }
     }
 </script>

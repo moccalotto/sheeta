@@ -9,11 +9,6 @@ window.axios.defaults.headers.common = {
 import moment from 'moment';
 window.moment = moment;
 
-// Import slug for slugging strings for prettier urls
-import slug from 'slug';
-window.slug = slug;
-
-
 // Import Vue to create our awesome spa.
 import Vue from 'vue';
 import VueRouter from 'vue-router';
