@@ -18,6 +18,15 @@ class SheetApiTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected function signIn() : User
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user, 'api');
+
+        return $user;
+    }
+
     /**
      * Ensure that we get a sane error if we don't authenticate.
      *
@@ -31,35 +40,59 @@ class SheetApiTest extends TestCase
     }
 
     /**
+     * Ensure that users can authenticate via a query string.
+     *
+     * @test
+     */
+    public function can_auth_via_query_string()
+    {
+        $user = factory(User::class)->create();
+
+        $this->json(
+            'GET',
+            sprintf('api/sheets?api_token=%s', $user->api_token)
+        )->assertStatus(200);
+    }
+
+
+    /**
+     * Ensure  that users can authenticate via bearer token.
+     *
+     * @test
+     */
+    public function can_auth_via_bearer_token()
+    {
+        $user = factory(User::class)->create();
+
+        $this->json(
+            'GET',
+            'api/sheets',
+            [],
+            ['Authorization' => sprintf('Bearer %s', $user->api_token)]
+        )->assertStatus(200);
+    }
+
+    /**
      * Ensure that the response code is correct if an entity cannot be found.
      *
      * @test
      */
     public function give_sane_response_if_sheet_could_not_be_found()
     {
-        $user = factory(User::class)->create();
+        $this->signIn();
 
-        $this->json(
-            'GET',
-            sprintf('api/sheets/42?api_token=%s', $user->api_token)
-        )->assertStatus(404)
-        ->assertJsonStructure(['error']);
+        $this->json('GET', 'api/sheets/42')
+            ->assertStatus(404)
+            ->assertJsonStructure(['error']);
 
-        $this->json(
-            'PUT',
-            sprintf('api/sheets/42?api_token=%s', $user->api_token),
-            []
-        )->assertStatus(404)
-        ->assertJsonStructure(['error']);
+        $this->json('PUT', 'api/sheets/42', [])
+            ->assertStatus(404)
+            ->assertJsonStructure(['error']);
 
-        $this->json(
-            'PUT',
-            sprintf('api/sheets/foo?api_token=%s', $user->api_token),
-            []
-        )->assertStatus(404)
-        ->assertJsonStructure(['error']);
+        $this->json('PUT', 'api/sheets/foo', [])
+            ->assertStatus(404)
+            ->assertJsonStructure(['error']);
     }
-
 
 
     /**
@@ -74,15 +107,11 @@ class SheetApiTest extends TestCase
      */
     public function it_can_create_a_new_sheet()
     {
-        $user = factory(User::class)->create();
+        $user = $this->signIn();
 
         $sheetRaw = factory(Sheet::class)->raw(['version' => 1, 'user_id' => $user->id]);
 
-        $response = $this->json(
-            'POST',
-            sprintf('api/sheets?api_token=%s', $user->api_token),
-            $sheetRaw
-        );
+        $response = $this->json('POST', 'api/sheets', $sheetRaw);
 
         $response->assertStatus(201);
 
@@ -101,7 +130,7 @@ class SheetApiTest extends TestCase
      */
     public function it_can_return_a_single_sheet()
     {
-        $user = factory(User::class)->create();
+        $user = $this->signIn();
 
         $sheet = factory(Sheet::class)->create([
             'version' => 1,
@@ -109,10 +138,7 @@ class SheetApiTest extends TestCase
             'allow_view' => true,
         ]);
 
-        $response = $this->json(
-            'GET',
-            sprintf('api/sheets/%s?api_token=%s', $sheet->id, $user->api_token)
-        );
+        $response = $this->json('GET', sprintf('api/sheets/%s', $sheet->id));
 
         $response->assertStatus(200);
 
@@ -131,7 +157,7 @@ class SheetApiTest extends TestCase
      */
     public function it_can_clone_a_single_sheet()
     {
-        $user = factory(User::class)->create();
+        $user = $this->signIn();
 
         $sheet = factory(Sheet::class)->create([
             'version' => 1,
@@ -139,10 +165,7 @@ class SheetApiTest extends TestCase
             'allow_clone' => true,
         ]);
 
-        $response = $this->json(
-            'POST',
-            sprintf('api/sheets/%s/clone?api_token=%s', $sheet->id, $user->api_token)
-        );
+        $response = $this->json('POST', sprintf('api/sheets/%s/clone', $sheet->id));
 
         $response->assertStatus(201);
 
@@ -151,5 +174,45 @@ class SheetApiTest extends TestCase
             'allow_clone' => $sheet->allow_clone,
             'tables' => $sheet->tables,
         ]);
+    }
+
+    /**
+     * Test that we can search for sheets via headlines.
+     *
+     * @test
+     */
+    public function it_can_search_for_sheets()
+    {
+        $this->signIn();
+
+        factory(Sheet::class)->create(['headline' => 'Lorem Ipsum']);
+        factory(Sheet::class)->create(['headline' => 'Example 2']);
+        factory(Sheet::class)->create(['headline' => 'Foo Bar Baz Example']);
+
+        $this->json(
+            'GET',
+            sprintf('api/sheets/?headline=%s', 'ipsum')
+        )->assertStatus(200)
+        ->assertJson([
+            [ 'headline' => 'Lorem Ipsum', ]
+        ]);
+
+        $this->json(
+            'GET',
+            sprintf('api/sheets/?headline=%s', 'bar')
+        )->assertStatus(200)
+        ->assertJson([
+            [ 'headline' => 'Foo Bar Baz Example', ]
+        ]);
+
+        $this->json(
+            'GET',
+            sprintf('api/sheets/?headline=%s', 'example')
+        )->assertStatus(200)
+        ->assertJson([
+            [ 'headline' => 'Example 2', ],
+            [ 'headline' => 'Foo Bar Baz Example', ],
+        ]);
+
     }
 }
