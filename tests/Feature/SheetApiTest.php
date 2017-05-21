@@ -193,25 +193,34 @@ class SheetApiTest extends TestCase
             'GET',
             sprintf('api/sheets/?headline=%s', 'ipsum')
         )->assertStatus(200)
+        ->assertJson([ 'total' => 1, ])
         ->assertJson([
-            [ 'headline' => 'Lorem Ipsum', ]
+            'data' => [
+                [ 'headline' => 'Lorem Ipsum', ]
+            ]
         ]);
 
         $this->json(
             'GET',
             sprintf('api/sheets/?headline=%s', 'bar')
         )->assertStatus(200)
+        ->assertJson(['total' => 1])
         ->assertJson([
-            [ 'headline' => 'Foo Bar Baz Example', ]
+            'data' => [
+                [ 'headline' => 'Foo Bar Baz Example', ]
+            ]
         ]);
 
         $this->json(
             'GET',
             sprintf('api/sheets/?headline=%s', 'example')
         )->assertStatus(200)
+        ->assertJson(['total' => 2])
         ->assertJson([
-            [ 'headline' => 'Example 2', ],
-            [ 'headline' => 'Foo Bar Baz Example', ],
+            'data' => [
+                [ 'headline' => 'Example 2', ],
+                [ 'headline' => 'Foo Bar Baz Example', ],
+            ]
         ]);
 
     }

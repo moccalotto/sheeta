@@ -19,7 +19,8 @@ class SheetsController extends Controller
             'headline',
             'like',
             preg_replace('/^|$|\s+/u', '%', $request->input('headline'))
-        )->get();
+        )->orderBy('id', 'asc')
+        ->paginate($request->input('page-size', 15));
     }
 
     /**
