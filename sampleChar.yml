@@ -1,5 +1,5 @@
 version: 1
-headline: FoobarBaz
+headline: FooBarBaz
 allow_clone: false  # should we allow other people to copy this and use it for themselves ?
 allow_view: true  # should we allow (other) people to see this sheet?
 clone_count: 0

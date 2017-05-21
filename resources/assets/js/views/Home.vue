@@ -3,7 +3,7 @@
         <div class="box">
             <div class="field has-addons">
                 <p class="control is-expanded">
-                    <input class="input" v-model="filter" @keyup.enter="fetchSearchResults" type="text" placeholder="Find a sheet">
+                    <input class="input" v-model="filter" @keyup.enter="fetchSearchResults" type="text" placeholder="Find a sheet" autofocus>
                 </p>
                 <p class="control">
                     <a class="button is-info" @click="fetchSearchResults">
@@ -47,7 +47,6 @@
                     this.next_page_url = data.next_page_url;
                     this.from = data.from;
                     this.to = data.to;
-                    console.log(response);
                 });
             }
         }

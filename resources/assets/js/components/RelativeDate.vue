@@ -5,12 +5,20 @@
 <script>
     export default {
         props: ['date'],
+        data() {
+            setInterval( () => {
+                this.now = new moment(this.date + 'Z');
+            }, 5000);
+            return {
+                now: new moment(this.date + 'Z')
+            };
+        },
         computed: {
             content() {
-                return moment(this.date).fromNow();
+                return this.now.fromNow();
             },
             hint() {
-                return moment(this.date).calendar();
+                return this.now.calendar();
             }
         }
     }

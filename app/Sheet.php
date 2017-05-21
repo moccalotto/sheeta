@@ -40,6 +40,10 @@ class Sheet extends Model
      */
     protected $appends = ['slug'];
 
+    /**
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     public function getSlugAttribute()
     {
