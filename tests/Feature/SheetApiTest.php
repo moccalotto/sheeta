@@ -40,39 +40,6 @@ class SheetApiTest extends TestCase
     }
 
     /**
-     * Ensure that users can authenticate via a query string.
-     *
-     * @test
-     */
-    public function can_auth_via_query_string()
-    {
-        $user = factory(User::class)->create();
-
-        $this->json(
-            'GET',
-            sprintf('api/sheets?api_token=%s', $user->api_token)
-        )->assertStatus(200);
-    }
-
-
-    /**
-     * Ensure  that users can authenticate via bearer token.
-     *
-     * @test
-     */
-    public function can_auth_via_bearer_token()
-    {
-        $user = factory(User::class)->create();
-
-        $this->json(
-            'GET',
-            'api/sheets',
-            [],
-            ['Authorization' => sprintf('Bearer %s', $user->api_token)]
-        )->assertStatus(200);
-    }
-
-    /**
      * Ensure that the response code is correct if an entity cannot be found.
      *
      * @test

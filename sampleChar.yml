@@ -1,5 +1,9 @@
+version: 1
 headline: FoobarBaz
-allow_clone: false  # should we allow people to copy this and use it for themselves ?
+allow_clone: false  # should we allow other people to copy this and use it for themselves ?
+allow_view: true  # should we allow (other) people to see this sheet?
+clone_count: 0
+clone_level: 0
 tables:
   - headline: Core Data
     visible_headline: false

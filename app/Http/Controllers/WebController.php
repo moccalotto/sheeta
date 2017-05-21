@@ -8,6 +8,6 @@ class WebController extends Controller
 {
     public function home()
     {
-        return 'weee';
+        return view('home');
     }
 }

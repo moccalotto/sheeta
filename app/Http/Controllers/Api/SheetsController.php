@@ -28,6 +28,12 @@ class SheetsController extends Controller
      */
     public function get(Sheet $sheet)
     {
+        if ($sheet->allow_view) {
+            return $sheet;
+        }
+
+        $this->authorize('view', $sheet);
+
         return $sheet;
     }
 

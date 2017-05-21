@@ -1,36 +1,31 @@
-
-window._ = require('lodash');
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-window.$ = window.jQuery = require('jquery');
-
-require('bootstrap-sass');
-
-/**
- * Vue is a modern JavaScript library for building interactive web interfaces
- * using reactive data binding and reusable components. Vue's API is clean
- * and simple, leaving you to focus on building your next great project.
- */
-
-window.Vue = require('vue');
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-window.axios = require('axios');
-
+// Import Axios for async http
+import axios from 'axios';
+window.axios = axios;
 window.axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
+
+// Import Moment lib for nice and relative dates.
+import moment from 'moment';
+window.moment = moment;
+
+// Import slug for slugging strings for prettier urls
+import slug from 'slug';
+window.slug = slug;
+
+
+// Import Vue to create our awesome spa.
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import SheetCard from './components/SheetCard';
+import RelativeDate from './components/RelativeDate';
+
+
+window.Vue = Vue;
+window.Vue.use(VueRouter);
+Vue.component('sheet-card', SheetCard);
+Vue.component('relative-date', RelativeDate);
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

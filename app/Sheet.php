@@ -26,24 +26,14 @@ class Sheet extends Model
      *
      * @var array
      */
-    protected $hidden = ['id', 'user_id', 'original_id'];
+    protected $hidden = ['user_id'];
 
     /**
-     * The accessors to append to the model's array form.
+     * The relations to eager load on every query.
      *
      * @var array
      */
-    protected $appends = ['api_path'];
-
-    /**
-     * Get the administrator flag for the user.
-     *
-     * @return bool
-     */
-    public function getApiPathAttribute()
-    {
-        return "/api/sheets/{$this->id}";
-    }
+    protected $with = ['user'];
 
     public function canBeClonedBy(User $user)
     {
@@ -94,5 +84,4 @@ class Sheet extends Model
             return Sheet::forceCreate($attributes);
         });
     }
-
 }
