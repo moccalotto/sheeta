@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
             $sheetData,
             ['user_id' => $user->id]
         ));
+
+        factory(Sheet::class, 500)->create();
     }
 }

@@ -14,12 +14,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import SheetCard from './components/SheetCard';
 import RelativeDate from './components/RelativeDate';
+import ItemPaginator from './components/ItemPaginator';
+import SheetList from './components/SheetList';
 
 
 window.Vue = Vue;
 window.Vue.use(VueRouter);
 Vue.component('sheet-card', SheetCard);
 Vue.component('relative-date', RelativeDate);
+Vue.component('item-paginator', ItemPaginator);
+Vue.component('sheet-list', SheetList);
 
 
 /**
