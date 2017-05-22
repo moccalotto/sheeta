@@ -4,49 +4,103 @@
         <a rel="prev" :disabled="onFirstPage" class="pagination-previous" @click.prevent="navigateRel(-1)">Previous</a>
         <a rel="next" :disabled="onLastPage"  class="pagination-next"     @click.prevent="navigateRel(1)">Next page</a>
 
-        <ul v-if="hasManyPages" class="pagination-list">
-            <li v-if="currentPage > 3">
-                <a @click.prevent="navigate(1)" class="pagination-link">1</a>
+        <ul v-if="listIs('short')" class="pagination-list">
+            <li v-for="page in lastPage">
+                <a @click.prevent="navigate(page)" :class="classFor(page)">{{ page }}</a>
             </li>
-            <li v-if="currentPage > 3">
-                <span class="pagination-ellipsis">&hellip;</span>
+        </ul>
+
+        <ul v-if="listIs('atBeginning')" class="pagination-list">
+            <li v-for="page in 5">
+                <a @click.prevent="navigate(page)" :class="classFor(page)">{{ page }}</a>
             </li>
-            <li v-if="currentPage > 1">
-                <a @click.prevent="navigateRel(-1)" class="pagination-link">{{ currentPage - 1 }}</a>
-            </li>
-            <li v-if="currentPage < lastPage">
-                <a @click.prevent="" class="pagination-link is-active">{{ currentPage }}</a>
-            </li>
-            <li v-if="currentPage + 2 < lastPage">
-                <a @click.prevent="navigateRel(1)" class="pagination-link">{{ currentPage + 1 }}</a>
-            </li>
-            <li v-if="currentPage < lastPage">
-                <span class="pagination-ellipsis">&hellip;</span>
-            </li>
+
             <li>
-                <a @click.prevent="navigate(lastPage)" class="pagination-link">{{ lastPage }}</a>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+
+            <li>
+                <a @click.prevent="navigate(lastPage)" :class="classFor(lastPage)">{{ lastPage }}</a>
             </li>
         </ul>
-        <ul v-else>
+
+        <ul v-if="listIs('atEnd')" class="pagination-list">
+            <li>
+                <a @click.prevent="navigate(1)" :class="classFor(1)">{{ 1 }}</a>
+            </li>
+
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+
+            <li v-for="offset in 5">
+                <a @click.prevent="navigate(lastPage - 5 + offset)" :class="classFor(lastPage - 5 + offset)">{{ lastPage - 5 + offset }}</a>
+            </li>
         </ul>
+
+        <ul v-if="listIs('inMiddle')" class="pagination-list">
+            <li>
+                <a @click.prevent="navigate(1)" :class="classFor(1)">{{ 1 }}</a>
+            </li>
+
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+
+            <li v-for="offset in 3">
+                <a @click.prevent="navigate(currentPage - 2 + offset)" :class="classFor(currentPage - 2 + offset)">{{ currentPage - 2 + offset }}</a>
+            </li>
+
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+
+            <li>
+                <a @click.prevent="navigate(lastPage)" :class="classFor(lastPage)">{{ lastPage }}</a>
+            </li>
+        </ul>
+
     </nav>
 </template>
 
 <script>
     export default {
-        props: ['dataSet'],
+        props: ['dataSet', 'loading'],
         methods: {
             navigateRel(offset) {
-                this.$emit('pageChanged', this.dataSet.current_page + offset);
+                this.navigate(this.dataSet.current_page + offset);
             },
             navigate(newPage) {
+                if (this.loading) {
+                    return false;
+                }
                 this.$emit('pageChanged', newPage);
             },
+            classFor(page) {
+                return {
+                    'pagination-link': true,
+                    'is-current': this.dataSet.current_page == page,
+                    'is-loading': this.loading == page,
+                    'button': this.loading == page,
+                };
+            },
+            listIs(name) {
+                if (this.dataSet.last_page < 8) {
+                    return name === 'short';
+                }
+
+                if (this.dataSet.current_page < 5) {
+                    return name === 'atBeginning';
+                }
+
+                if (this.dataSet.current_page > this.dataSet.last_page - 4) {
+                    return name === 'atEnd';
+                }
+
+                return name === 'inMiddle';
+            }
         },
         computed: {
-            hasManyPages() {
-                return this.dataSet.last_page > 7;
-            },
             currentPage() {
                 return this.dataSet.current_page;
             },

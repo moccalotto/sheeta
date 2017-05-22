@@ -1,48 +1,50 @@
 <template>
     <div class="sheet-list">
-        <item-paginator v-if="dataSet.last_page > 1" :dataSet="dataSet" @pageChanged="pageChanged"></item-paginator>
+        <item-paginator v-if="dataSet.last_page > 1" :loading="loading" :dataSet="dataSet" @pageChanged="fetch"></item-paginator>
         <div v-for="sheet in sheets" :key="sheet.id">
             <sheet-card :sheet="sheet"></sheet-card>
         </div>
-        <item-paginator v-if="dataSet.last_page > 1" :dataSet="dataSet" @pageChanged="pageChanged"></item-paginator>
+        <item-paginator v-if="dataSet.last_page > 1" :loading="loading" :dataSet="dataSet" @pageChanged="fetch"></item-paginator>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['filter'],
+        props: ['filter', 'page'],
         data() {
             return {
                 sheets: [],
                 dataSet: {},
-                currentPage: 1,
+                currentPage: null,
+                loading: null,
             }
         },
         created() {
-            this.fetch();
+            this.fetch(this.page || 1);
         },
         watch: {
             filter() {
-                this.currentPage = 1;
-                this.fetch();
-            }
+                this.fetch(1);
+            },
+            page() {
+                this.fetch(this.page);
+            },
         },
         methods: {
-            pageChanged(page) {
-                this.currentPage = page;
-                this.$emit('pageChanged', this.currentPage);
-                this.fetch();
-            },
-            fetch() {
+            fetch(page) {
+                this.loading = page;
                 axios.get('/api/sheets/', {
                     params: {
                         headline: this.filter,
-                        page: this.currentPage,
+                        page
 
                     }
                 }).then( ({data}) => {
                     this.sheets = data.data;
                     this.dataSet = data;
+                    this.loading = null;
+                    this.currentPage = data.current_page;
+                    this.$emit('pageChanged', this.currentPage);
                 });
             }
         },

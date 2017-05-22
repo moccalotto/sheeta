@@ -4,6 +4,11 @@ const routes = [
     {
         path: '/',
         component: require('./views/Home'),
+    },
+    {
+        path: '/sheets/:id/:slug',
+        component: require('./views/Sheet'),
+        props: true,
     }
 ];
 

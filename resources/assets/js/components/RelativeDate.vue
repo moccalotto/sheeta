@@ -6,12 +6,14 @@
     export default {
         props: ['date'],
         data() {
-            setInterval( () => {
-                this.now = new moment(this.date + 'Z');
-            }, 5000);
             return {
                 now: new moment(this.date + 'Z')
             };
+        },
+        created() {
+            setInterval( () => {
+                this.now = new moment(this.date + 'Z');
+            }, 5000);
         },
         computed: {
             content() {
