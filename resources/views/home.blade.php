@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Sheeta</title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
     <section class="hero is-primary">
