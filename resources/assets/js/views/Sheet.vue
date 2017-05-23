@@ -12,7 +12,7 @@
                     <colgroup>
                         <col v-for="col in table.columns" :style="styleForCol(col)">
                     </colgroup>
-                    <thead>
+                    <thead v-show="table.visible_headline">
                         <th v-for="col in table.columns">
                             {{ col.headline }}
                         </th>
