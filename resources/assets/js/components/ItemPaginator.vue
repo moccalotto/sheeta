@@ -74,6 +74,15 @@
                 if (this.loading) {
                     return false;
                 }
+
+                if (newPage < 1) {
+                    return false;
+                }
+
+                if (newPage > this.dataSet.last_page) {
+                    return false;
+                }
+
                 this.$emit('pageChanged', newPage);
             },
             classFor(page) {
