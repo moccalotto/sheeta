@@ -7,6 +7,7 @@ clone_level: 0
 tables:
   - headline: Core Data
     visible_headline: false
+    width: 3
     rows_min: 3
     rows_max: 3
     columns:
@@ -22,6 +23,7 @@ tables:
       - [Discipline, Troubardour]
       - [Race, Dwarf]
   - headline: Defenses
+    width: 3
     rows_min: 3
     rows_max: 3
     columns:
@@ -39,6 +41,7 @@ tables:
       - [Spell, 9]
       - [Social, 9]
   - headline: Attributes
+    width: 12
     visible_headline: true
     rows_min: 6
     rows_max: 6
@@ -72,3 +75,14 @@ tables:
       - [Perception, 16, 0, 16, 7]
       - [Wilpower, 4, 0, 4, 3]
       - [Charisma, 16, 0, 16, 7]
+
+  - headline: equipment
+    width: 12
+    visible_headline: true,
+    columns:
+      - headline: item
+        width: 10
+      - headline: value
+        width: 2
+    rows:
+      - ["Broad Sword, awesome doomsday weapon", 500sp]
