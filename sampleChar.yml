@@ -76,13 +76,16 @@ tables:
       - [Wilpower, 4, 0, 4, 3]
       - [Charisma, 16, 0, 16, 7]
 
-  - headline: equipment
+  - headline: Equipment
     width: 12
     visible_headline: true,
     columns:
       - headline: item
-        width: 10
+      - headline: description
       - headline: value
         width: 2
     rows:
-      - ["Broad Sword, awesome doomsday weapon", 500sp]
+      - [Broad Sword, awesome doomsday weapon, 500sp]
+      - [Armor, awesome chainmail, 500sp]
+      - [Boots, haste, 1225sp]
+      - [Moneypouch, '', 1024sp]
