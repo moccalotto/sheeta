@@ -7,14 +7,15 @@ clone_level: 0
 tables:
   - headline: Core Data
     visible_headline: false
+    visible_headers: false
     width: 3
     rows_min: 3
     rows_max: 3
     columns:
-      - headline: key
+      - headline: Key
         readonly: true
         width: 3
-      - headline: value
+      - headline: Value
         max_length: 30
         width: 9
     rows:
@@ -43,6 +44,7 @@ tables:
   - headline: Attributes
     width: 12
     visible_headline: true
+    visible_headers: false
     rows_min: 6
     rows_max: 6
     columns:
@@ -79,13 +81,16 @@ tables:
   - headline: Equipment
     width: 12
     visible_headline: true,
+    visible_headers: true
     columns:
-      - headline: item
-      - headline: description
-      - headline: value
+      - headline: Item
+      - headline: Description
+      - headline: Value
         width: 2
     rows:
-      - [Broad Sword, awesome doomsday weapon, 500sp]
       - [Armor, awesome chainmail, 500sp]
       - [Boots, haste, 1225sp]
+      - [Broad Sword, awesome doomsday weapon, 500sp]
+      - [Chainmail, mail of chain and stuff, 1500sp]
       - [Moneypouch, '', 1024sp]
+      - [Spellbook, '', N/A]
