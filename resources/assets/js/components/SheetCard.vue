@@ -1,11 +1,11 @@
 <template>
     <div class="box">
         <div class="title">
-            <router-link :to="`/sheets/${sheet.id}/${sheet.slug}`">{{ sheet.headline }}</router-link>
+            <router-link :to="`/sheets/${sheet.id}`">{{ sheet.headline }}</router-link>
         </div>
         <p>
             Created <relative-date :date="sheet.created_at"></relative-date> by
-            <router-link :to="'/users/' + sheet.user.username">{{ sheet.user.username }}</router-link>
+            <router-link :to="`/users/${sheet.user.username}`">{{ sheet.user.username }}</router-link>
         </p>
         <p>
             Updated <relative-date :date="sheet.updated_at"></relative-date>.

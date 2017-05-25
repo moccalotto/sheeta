@@ -23,6 +23,6 @@ class DatabaseSeeder extends Seeder
             ['user_id' => $user->id]
         ));
 
-        factory(Sheet::class, 103)->create();
+        factory(Sheet::class, 503)->create();
     }
 }

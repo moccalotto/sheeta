@@ -16,6 +16,8 @@ import SheetCard from './components/SheetCard';
 import RelativeDate from './components/RelativeDate';
 import ItemPaginator from './components/ItemPaginator';
 import SheetList from './components/SheetList';
+import FlashList from './components/FlashList';
+import { PulseLoader } from 'vue-spinner/dist/vue-spinner.min.js'
 
 
 window.Vue = Vue;
@@ -24,6 +26,8 @@ Vue.component('sheet-card', SheetCard);
 Vue.component('relative-date', RelativeDate);
 Vue.component('item-paginator', ItemPaginator);
 Vue.component('sheet-list', SheetList);
+Vue.component('flash-list', FlashList);
+Vue.component('pulse-loader', PulseLoader);
 
 
 /**

@@ -6,15 +6,14 @@ const routes = [
         component: require('./views/Home'),
     },
     {
-        path: '/sheets/:id/:slug',
+        path: '/sheets/:id',
         component: require('./views/Sheet'),
         props: true,
     },
     {
-        path: '/sheets/:id/row/:tableIdx/:rowIdx',
+        path: '/users/:username',
         component: require('./views/Dump'),
         props: true,
-        name: 'rowEdit',
     }
 ];
 

@@ -22,6 +22,7 @@
     <section class="section">
         <section class="container" id="app">
             <router-view></router-view>
+            <flash-list></flash-list>
         </section>
     </section>
     <script src="{{ mix('js/app.js') }}"></script>

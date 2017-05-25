@@ -19,7 +19,12 @@ class SheetsController extends Controller
             'headline',
             'like',
             preg_replace('/^|$|\s+/u', '%', $request->input('headline'))
-        )->orderBy('id', 'asc')
+        )->where(function ($query) use ($request) {
+            $query->where('allow_view', true);
+            if ($request->user()) {
+                $query->orWhere('user_id', $request->user()->id);
+            }
+        }) ->orderBy('id', 'asc')
         ->paginate($request->input('page-size', 15));
     }
 

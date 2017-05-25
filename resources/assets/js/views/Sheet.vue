@@ -28,6 +28,8 @@
             </div>
         </div>
     </div>
+    <pulse-loader v-else></pulse-loader>
+
 </template>
 
 <script>
@@ -94,7 +96,17 @@
                     this.sheet = data;
                     this.loading = false;
                 }).catch ( (error) => {
-                    console.log(error);
+                    switch (error.response.status) {
+                        case 401:
+                            flash('danger', 'You are not allowed to see this sheet!', 3000);
+                            break;
+                        case 403:
+                            flash('danger', 'You need to be signed in to see this sheet.', 3000);
+                            break;
+                        default:
+                            flash('danger', `You cannot see this sheet: ${error.message}`, 3000);
+                            break;
+                    }
                 });
             }
         },
