@@ -152,9 +152,9 @@ class SheetApiTest extends TestCase
     {
         $this->signIn();
 
-        factory(Sheet::class)->create(['headline' => 'Lorem Ipsum']);
-        factory(Sheet::class)->create(['headline' => 'Example 2']);
-        factory(Sheet::class)->create(['headline' => 'Foo Bar Baz Example']);
+        factory(Sheet::class)->create(['headline' => 'Lorem Ipsum', 'allow_view' => true]);
+        factory(Sheet::class)->create(['headline' => 'Example 2', 'allow_view' => true]);
+        factory(Sheet::class)->create(['headline' => 'Foo Bar Baz Example', 'allow_view' => true]);
 
         $this->json(
             'GET',
