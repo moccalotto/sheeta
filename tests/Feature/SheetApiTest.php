@@ -155,6 +155,7 @@ class SheetApiTest extends TestCase
         factory(Sheet::class)->create(['headline' => 'Lorem Ipsum', 'allow_view' => true]);
         factory(Sheet::class)->create(['headline' => 'Example 2', 'allow_view' => true]);
         factory(Sheet::class)->create(['headline' => 'Foo Bar Baz Example', 'allow_view' => true]);
+        factory(Sheet::class)->create(['headline' => 'Unseen Example', 'allow_view' => false]);
 
         $this->json(
             'GET',
