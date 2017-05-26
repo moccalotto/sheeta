@@ -9,12 +9,13 @@ tables:
     visible_headline: false
     visible_headers: false
     width: 3
-    rows_min: 3
-    rows_max: 3
+    min_rows: 3
+    max_rows: 3
     columns:
       - headline: Key
         readonly: true
         width: 3
+        is_header: true
       - headline: Value
         max_length: 30
         width: 9
@@ -25,31 +26,33 @@ tables:
       - [Race, Dwarf]
   - headline: Defenses
     width: 3
-    rows_min: 3
-    rows_max: 3
+    min_rows: 3
+    max_rows: 3
     columns:
       - headline: Defense
         readonly: true
-        width: 3
+        width: 10
+        is_header: true
       - headline: Score
-        width: 9
+        width: 2
         format: "%d"
         validation: '^\d+$'
         min_value: 1
         max_value: 15
     rows:
-      - [Physical, 9]
-      - [Spell, 9]
-      - [Social, 9]
+      - [Physical Defense, 9]
+      - [Spell Defense, 9]
+      - [Social Defense, 9]
   - headline: Attributes
     width: 12
     visible_headline: true
     visible_headers: false
-    rows_min: 6
-    rows_max: 6
+    min_rows: 6
+    max_rows: 6
     columns:
       - headline: Attribute
         readonly: true
+        is_header: true
       - headline: Initial Score
         format: "%d"
         validation: '^\d+$'

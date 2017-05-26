@@ -7,7 +7,7 @@ const routes = [
     },
     {
         path: '/sheets/:id',
-        component: require('./views/Sheet'),
+        component: require('./views/SheetView'),
         props: true,
     },
     {

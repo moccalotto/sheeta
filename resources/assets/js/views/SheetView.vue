@@ -1,10 +1,17 @@
 <template>
     <div v-if="!!sheet">
-        <h1 class="title">{{ sheet.headline }}</h1>
+        <h1 class="title is-spaced">
+            {{ sheet.headline }}
+            <a href="#diller">
+                <span class="icon">
+                    <i class="fa fa-pencil"></i>
+                </span>
+            </a>
+        </h1>
 
         <div class="columns is-multiline">
 
-            <div v-for="table, tableIdx in sheet.tables" :class="classForTable(table)">
+            <div v-for="table, tableIdx in sheet.tables" :class="classForColumn(table)">
                 <table class="table">
                     <caption class="title is-3" v-show="table.visible_headline">
                         {{ table.headline }}
@@ -19,9 +26,14 @@
                     </thead>
                     <tbody>
                         <tr v-for="row,rowIdx in table.rows" :class="classForRow(tableIdx, rowIdx)" @click.prevent="toggleEdit(tableIdx,rowIdx)">
-                            <td v-for="col,colIdx in row">
-                                <span class="is-info">{{ col }}</span>
-                            </td>
+                            <template v-for="col,colIdx in row">
+                                <th v-if="table.columns[colIdx].is_header">
+                                    {{ col }}
+                                </th>
+                                <td v-else>
+                                    {{ col }}
+                                </td>
+                            </template>
                         </tr>
                     </tbody>
                 </table>
@@ -80,7 +92,7 @@
                     }
                 }
             },
-            classForTable(table) {
+            classForColumn(table) {
                 let res = { column: true, };
 
                 if (table.width || false) {
