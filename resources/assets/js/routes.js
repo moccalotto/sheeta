@@ -11,6 +11,12 @@ const routes = [
         props: true,
     },
     {
+        path: '/sheets/:id/edit',
+        component: require('./views/SheetEdit'),
+        props: true,
+        name: 'editSheet',
+    },
+    {
         path: '/users/:username',
         component: require('./views/Dump'),
         props: true,

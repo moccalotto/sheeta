@@ -1,12 +1,26 @@
 <template>
-    <div v-if="!!sheet">
+    <div v-if="!!sheet" class="menu-parent">
+        <context-menu :event="edit.event" heading="Edit Cell">
+            <a class="panel-block is-active">
+                <span class="panel-icon">
+                    <i class="fa fa-book"></i>
+                </span>
+                bulma
+            </a>
+            <a class="panel-block">
+                <span class="panel-icon">
+                    <i class="fa fa-book"></i>
+                </span>
+                marksheet
+            </a>
+        </context-menu>
         <h1 class="title is-spaced">
             {{ sheet.headline }}
-            <a href="#diller">
+            <router-link :to="{ name: 'editSheet', params: { id: $route.params.id }}">
                 <span class="icon">
                     <i class="fa fa-pencil"></i>
                 </span>
-            </a>
+            </router-link>
         </h1>
 
         <div class="columns is-multiline">
@@ -25,13 +39,17 @@
                         </th>
                     </thead>
                     <tbody>
-                        <tr v-for="row,rowIdx in table.rows" :class="classForRow(tableIdx, rowIdx)" @click.prevent="toggleEdit(tableIdx,rowIdx)">
+                        <tr v-for="row,rowIdx in table.rows">
                             <template v-for="col,colIdx in row">
                                 <th v-if="table.columns[colIdx].is_header">
-                                    {{ col }}
+                                    <div :class="classForCell(tableIdx, rowIdx, colIdx)" @click.prevent.stop="toggleEdit(tableIdx,rowIdx,colIdx,$event)">
+                                        {{ col }}
+                                    </div>
                                 </th>
                                 <td v-else>
-                                    {{ col }}
+                                    <div :class="classForCell(tableIdx, rowIdx, colIdx)" @click.prevent.stop="toggleEdit(tableIdx,rowIdx,colIdx,$event)">
+                                        {{ col }}
+                                    </div>
                                 </td>
                             </template>
                         </tr>
@@ -52,37 +70,46 @@
                 sheet: null,
                 loading: true,
                 edit: {
-                    enabled: false,
+                    event: null,
                     tableIdx: null,
                     rowIdx: null,
+                    colIdx: null,
                 }
             };
         },
         created() {
             this.fetch();
+            document.addEventListener('click', () => {
+                this.unedit();
+            });
         },
         methods: {
-            toggleEdit(tableIdx, rowIdx) {
-                if (this.isEditing(tableIdx, rowIdx)) {
-                    return this.unedit();
+            toggleEdit(tableIdx, rowIdx, colIdx, event) {
+                if (this.isEditing(tableIdx, rowIdx, colIdx)) {
+                    // return this.unedit();
                 }
-                this.edit.enabled = true;
+                this.edit.event = event;
                 this.edit.tableIdx = tableIdx;
                 this.edit.rowIdx = rowIdx;
+                this.edit.colIdx = colIdx;
             },
             unedit() {
-                this.edit.enabled = false;
-                this.tableIdx = null;
-                this.rowIdx = null;
+                this.edit = {
+                    event: null,
+                    tableIdx: null,
+                    rowIdx: null,
+                    colIdx: null,
+                };
             },
-            isEditing(tableIdx, rowIdx) {
-                return this.edit.enabled == true
+            isEditing(tableIdx, rowIdx, colIdx) {
+                return this.edit.event != null
                     && this.edit.tableIdx == tableIdx
-                    && this.edit.rowIdx == rowIdx;
+                    && this.edit.rowIdx == rowIdx
+                    && this.edit.colIdx == colIdx;
             },
-            classForRow(tableIdx, rowIdx) {
+            classForCell(tableIdx, rowIdx, colIdx) {
                 return {
-                    'is-selected': this.isEditing(tableIdx, rowIdx),
+                    'is-selected': this.isEditing(tableIdx, rowIdx, colIdx),
                 };
             },
             styleForCol(col) {

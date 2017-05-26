@@ -20,6 +20,9 @@ Vue.component('relative-date', require('./components/RelativeDate'));
 Vue.component('item-paginator', require('./components/ItemPaginator'));
 Vue.component('sheet-list', require('./components/SheetList'));
 Vue.component('flash-list', require('./components/FlashList'));
+Vue.component('context-menu', require('./components/ContextMenu'));
+
+
 Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader'));
 
 
