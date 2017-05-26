@@ -13,7 +13,6 @@ window.moment = moment;
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-
 window.Vue = Vue;
 window.Vue.use(VueRouter);
 Vue.component('sheet-card', require('./components/SheetCard'));
