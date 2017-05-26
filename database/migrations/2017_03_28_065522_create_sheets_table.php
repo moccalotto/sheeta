@@ -23,7 +23,7 @@ class CreateSheetsTable extends Migration
             $table->boolean('allow_view')->default(true);
             $table->integer('clone_count')->default(0);
             $table->integer('clone_level')->default(0);
-            $table->text('tables');
+            $table->mediumText('tables');
             $table->timestamps();
 
             $table->foreign('user_id')
