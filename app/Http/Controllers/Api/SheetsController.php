@@ -42,6 +42,50 @@ class SheetsController extends Controller
         return $sheet;
     }
 
+    public function patch(Request $request, Sheet $sheet)
+    {
+        $validation = [
+            'version' => 'required|int',
+            'path'    => 'required|array',
+            'path.1'  => 'required|in:headline,allow_clone,allow_view,tables',
+            'value'   => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $validation);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        if ($sheet->version !== $request->input('version')) {
+            return response()->json([
+                'error' => 'Version conflict',
+                'message' => sprintf(
+                    'Expected version %d, but got version %d',
+                    $sheet->version,
+                    $request->input('version')
+                ),
+                'expectedVersion' => $sheet->version,
+                'gotVersion' => $request->input('version'),
+            ]);
+        }
+
+        $sheet->applyPatch(
+            $request->input('path'),
+            $request->input('value')
+        );
+
+        $sheet->save();
+
+        return response()->json([
+            'id' => $sheet->id,
+            'version' => $sheet->version,
+        ], 200);
+    }
+
+
     /**
      * Update a sheet
      */
