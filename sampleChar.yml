@@ -25,6 +25,7 @@ tables:
       - [Discipline, Troubardour]
       - [Race, Dwarf]
   - headline: Defenses
+    visible_headline: true
     width: 3
     min_rows: 3
     max_rows: 3
@@ -43,6 +44,26 @@ tables:
       - [Physical Defense, 9]
       - [Spell Defense, 9]
       - [Social Defense, 9]
+  - headline: Finances
+    visible_headline: true
+    width: 3
+    min_rows: 3
+    max_rows: 3
+    columns:
+      - headline: Type
+        readonly: true
+        width: 10
+        is_header: true
+      - headline: Amount
+        width: 2
+        format: "%d"
+        validation: '^\d+$'
+        min_value: 0
+    rows:
+      - [Platinum, 1]
+      - [Gold, 29]
+      - [Silver, 81]
+      - [Copper, 12]
   - headline: Attributes
     width: 12
     visible_headline: true
