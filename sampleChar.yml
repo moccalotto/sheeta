@@ -64,10 +64,21 @@ tables:
       - [Gold, 29]
       - [Silver, 81]
       - [Copper, 12]
-  - headline: Attributes
-    width: 12
+  - headline: Hit Points
     visible_headline: true
     visible_headers: false
+    width: 3
+    min_rows: 1
+    max_rows: 1
+    columns:
+      - headline: Hit Points
+        is_header: true
+    rows:
+      - [89]
+  - headline: Attributes
+    width: 12
+    visible_headline: false
+    visible_headers: true
     min_rows: 6
     max_rows: 6
     columns:
