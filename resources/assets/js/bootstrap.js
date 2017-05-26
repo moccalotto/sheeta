@@ -12,22 +12,16 @@ window.moment = moment;
 // Import Vue to create our awesome spa.
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import SheetCard from './components/SheetCard';
-import RelativeDate from './components/RelativeDate';
-import ItemPaginator from './components/ItemPaginator';
-import SheetList from './components/SheetList';
-import FlashList from './components/FlashList';
-import { PulseLoader } from 'vue-spinner/dist/vue-spinner.min.js'
 
 
 window.Vue = Vue;
 window.Vue.use(VueRouter);
-Vue.component('sheet-card', SheetCard);
-Vue.component('relative-date', RelativeDate);
-Vue.component('item-paginator', ItemPaginator);
-Vue.component('sheet-list', SheetList);
-Vue.component('flash-list', FlashList);
-Vue.component('pulse-loader', PulseLoader);
+Vue.component('sheet-card', require('./components/SheetCard'));
+Vue.component('relative-date', require('./components/RelativeDate'));
+Vue.component('item-paginator', require('./components/ItemPaginator'));
+Vue.component('sheet-list', require('./components/SheetList'));
+Vue.component('flash-list', require('./components/FlashList'));
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader'));
 
 
 /**
