@@ -1,19 +1,5 @@
 <template>
     <div v-if="!!sheet" class="menu-parent">
-        <context-menu :event="edit.event" heading="Edit Cell">
-            <a class="panel-block is-active">
-                <span class="panel-icon">
-                    <i class="fa fa-book"></i>
-                </span>
-                bulma
-            </a>
-            <a class="panel-block">
-                <span class="panel-icon">
-                    <i class="fa fa-book"></i>
-                </span>
-                marksheet
-            </a>
-        </context-menu>
         <h1 class="title is-spaced">
             <template v-if="sheet.visible_headline">
                 {{ sheet.headline }}
