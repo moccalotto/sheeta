@@ -3,7 +3,7 @@
         <div :class="outerClass">
             <input v-if="cell.is_edit"
             :type="inputType"
-            :value="displayValue"
+            :value="value"
             :min="cell.min_value"
             :max="cell.max_value"
             :pattern="cell.validation"
@@ -17,12 +17,7 @@
 </template>
 <script>
     export default {
-        props: ['cell', 'value'],
-        data() {
-            return {
-                displayValue: this.value,
-            };
-        },
+        props: ['cell', 'value', 'readonly'],
         computed: {
             outerClass() {
                 return {

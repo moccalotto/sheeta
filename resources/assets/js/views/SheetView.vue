@@ -28,7 +28,14 @@
                     </thead>
                     <tbody>
                         <tr v-for="row,rowIdx in table.rows">
-                            <view-cell v-for="col,colIdx in row" :key="colIdx" :value="col" @changed="cellChanged($event.target.value, tableIdx, rowIdx, colIdx)" :cell="table.columns[colIdx]"></view-cell>
+                            <view-cell
+                            v-for="col,colIdx in row"
+                            :key="colIdx"
+                            :value="col"
+                            :cell="table.columns[colIdx]"
+                            :readonly="true"
+                            @changed="cellChanged($event.target.value, tableIdx, rowIdx, colIdx)"
+                            ></view-cell>
                         </tr>
                     </tbody>
                 </table>
@@ -64,7 +71,23 @@
         },
         methods: {
             cellChanged(newValue, tableIdx, rowIdx, colIdx) {
-                console.log(newValue, tableIdx, rowIdx, colIdx);
+                const col = this.sheet.tables[tableIdx].columns[colIdx];
+
+                if (col.format == 'number') {
+                    newValue = parseInt(newValue);
+                }
+
+                if (col.max_value !== undefined && newValue > col.max_value) {
+                    newValue = col.max_value;
+                }
+
+                if (col.min_value !== undefined && newValue < col.min_value) {
+                    newValue = col.min_value;
+                }
+
+                console.log(newValue);
+
+                this.sheet.tables[tableIdx].rows[rowIdx][colIdx] = newValue;
             },
             styleForCol(col) {
                 if (col.width || false) {
