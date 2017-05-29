@@ -101,7 +101,7 @@ class SheetClassTest extends TestCase
 
 
         // ====================
-        // ==== tables ========
+        // == tables, simple ==
         // ====================
         $sheet->applyPatch(['tables', 0, 'headline'], 'headline for first table');
         $this->assertEquals('headline for first table', $sheet->tables[0]['headline']);
@@ -111,5 +111,17 @@ class SheetClassTest extends TestCase
         $sheet->applyPatch(['tables', 0, 'headline'], 'headline for first table');
         $this->assertEquals('headline for first table', $sheet->tables[0]['headline']);
         $this->assertEquals(5, $sheet->version);
+
+        // ====================
+        // = tables, complex ==
+        // ====================
+        $sheet->applyPatch(['tables', 2, 'columns', 0, 'headline'], 'headline for first column on third table');
+        $this->assertEquals('headline for first column on third table', $sheet->tables[2]['columns'][0]['headline']);
+        $this->assertEquals(6, $sheet->version);
+
+        // Apply same patch again. See that version does NOT increase.
+        $sheet->applyPatch(['tables', 2, 'columns', 0, 'headline'], 'headline for first column on third table');
+        $this->assertEquals('headline for first column on third table', $sheet->tables[2]['columns'][0]['headline']);
+        $this->assertEquals(6, $sheet->version);
     }
 }

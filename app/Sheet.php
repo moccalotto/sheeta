@@ -15,6 +15,7 @@ class Sheet extends Model
     protected $casts = [
         'id' => 'integer',
         'tables' => 'array',
+        'visible_headline' => 'boolean',
         'allow_clone' => 'boolean',
         'allow_view' => 'boolean',
         'version' => 'integer',

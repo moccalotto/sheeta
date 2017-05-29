@@ -15,12 +15,14 @@
             </a>
         </context-menu>
         <h1 class="title is-spaced">
-            {{ sheet.headline }}
-            <router-link :to="{ name: 'editSheet', params: { id: $route.params.id }}">
-                <span class="icon">
-                    <i class="fa fa-pencil"></i>
-                </span>
-            </router-link>
+            <template v-if="sheet.visible_headline">
+                {{ sheet.headline }}
+                <router-link :to="{ name: 'editSheet', params: { id: $route.params.id }}">
+                    <span class="icon">
+                        <i class="fa fa-pencil"></i>
+                    </span>
+                </router-link>
+            </template>
         </h1>
 
         <div class="columns is-multiline">
@@ -40,18 +42,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="row,rowIdx in table.rows">
-                            <template v-for="col,colIdx in row">
-                                <th v-if="table.columns[colIdx].is_header">
-                                    <div :class="classForCell(tableIdx, rowIdx, colIdx)" @click.prevent.stop="toggleEdit(tableIdx,rowIdx,colIdx,$event)">
-                                        {{ col }}
-                                    </div>
-                                </th>
-                                <td v-else>
-                                    <div :class="classForCell(tableIdx, rowIdx, colIdx)" @click.prevent.stop="toggleEdit(tableIdx,rowIdx,colIdx,$event)">
-                                        {{ col }}
-                                    </div>
-                                </td>
-                            </template>
+                            <view-cell v-for="col,colIdx in row" :key="colIdx" :value="col" @changed="cellChanged($event.target.value, tableIdx, rowIdx, colIdx)" :cell="table.columns[colIdx]"></view-cell>
                         </tr>
                     </tbody>
                 </table>
@@ -63,8 +54,13 @@
 </template>
 
 <script>
+    import ViewCell from '../components/ViewCell';
+
     export default {
         props: ['id', 'slug'],
+        components: {
+            'view-cell': ViewCell,
+        },
         data() {
             return {
                 sheet: null,
@@ -79,38 +75,10 @@
         },
         created() {
             this.fetch();
-            document.addEventListener('click', () => {
-                this.unedit();
-            });
         },
         methods: {
-            toggleEdit(tableIdx, rowIdx, colIdx, event) {
-                if (this.isEditing(tableIdx, rowIdx, colIdx)) {
-                    // return this.unedit();
-                }
-                this.edit.event = event;
-                this.edit.tableIdx = tableIdx;
-                this.edit.rowIdx = rowIdx;
-                this.edit.colIdx = colIdx;
-            },
-            unedit() {
-                this.edit = {
-                    event: null,
-                    tableIdx: null,
-                    rowIdx: null,
-                    colIdx: null,
-                };
-            },
-            isEditing(tableIdx, rowIdx, colIdx) {
-                return this.edit.event != null
-                    && this.edit.tableIdx == tableIdx
-                    && this.edit.rowIdx == rowIdx
-                    && this.edit.colIdx == colIdx;
-            },
-            classForCell(tableIdx, rowIdx, colIdx) {
-                return {
-                    'is-selected': this.isEditing(tableIdx, rowIdx, colIdx),
-                };
+            cellChanged(newValue, tableIdx, rowIdx, colIdx) {
+                console.log(newValue, tableIdx, rowIdx, colIdx);
             },
             styleForCol(col) {
                 if (col.width || false) {

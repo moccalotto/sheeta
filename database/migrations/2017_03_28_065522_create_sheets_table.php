@@ -19,6 +19,7 @@ class CreateSheetsTable extends Migration
             $table->integer('original_id')->unsigned()->nullable();
             $table->integer('version')->default(1); // optimistic locking.
             $table->string('headline', 60);
+            $table->boolean('visible_headline')->default(true);
             $table->boolean('allow_clone')->default(false);
             $table->boolean('allow_view')->default(true);
             $table->integer('clone_count')->default(0);

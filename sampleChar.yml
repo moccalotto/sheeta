@@ -1,11 +1,12 @@
 version: 1
 headline: FooBarBaz
+visible_headline: false
 allow_clone: false  # should we allow other people to copy this and use it for themselves ?
 allow_view: true  # should we allow (other) people to see this sheet?
 clone_count: 0
 clone_level: 0
 tables:
-  - headline: Core Data
+  - headline: Harall
     visible_headline: false
     visible_headers: false
     width: 3
@@ -36,7 +37,7 @@ tables:
         is_header: true
       - headline: Score
         width: 2
-        format: "%d"
+        format: "number"
         validation: '^\d+$'
         min_value: 1
         max_value: 15
@@ -52,11 +53,13 @@ tables:
     columns:
       - headline: Type
         readonly: true
-        width: 10
+        is_large: true
+        width: 6
         is_header: true
       - headline: Amount
-        width: 2
-        format: "%d"
+        is_edit: true
+        width: 6
+        format: "number"
         validation: '^\d+$'
         min_value: 0
     rows:
@@ -64,17 +67,25 @@ tables:
       - [Gold, 29]
       - [Silver, 81]
       - [Copper, 12]
-  - headline: Hit Points
+  - headline: Health
     visible_headline: true
     visible_headers: false
     width: 3
     min_rows: 1
     max_rows: 1
     columns:
-      - headline: Hit Points
+      - headline: Key
         is_header: true
+      - headline: Value
+        min_value: 0
+        is_large: true
+        is_edit: true
+        format: "number"
+        validation: '^\d+$'
+        max_value: 1000
     rows:
-      - [89]
+      - ['Damage', 0]
+      - ['Recoveries', 3]
   - headline: Attributes
     width: 12
     visible_headline: false
@@ -86,22 +97,22 @@ tables:
         readonly: true
         is_header: true
       - headline: Initial Score
-        format: "%d"
+        format: "number"
         validation: '^\d+$'
         min_value: 3
         max_value: 25
       - headline: Increments
-        format: "%d"
+        format: "number"
         validation: '^\d+$'
         min_value: 0
         max_value: 3
       - headline: Current Score
-        format: "%d"
+        format: "number"
         validation: '^\d+$'
         min_value: 3
         max_value: 28
       - headline: step
-        format: "%d"
+        format: "number"
         validation: '^\d+$'
         min_value: 1
         max_value: 15
