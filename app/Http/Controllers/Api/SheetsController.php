@@ -47,7 +47,7 @@ class SheetsController extends Controller
         $validation = [
             'version' => 'required|int',
             'path'    => 'required|array',
-            'path.1'  => 'required|in:headline,allow_clone,allow_view,tables',
+            'path.*'    => 'required',
             'value'   => 'required',
         ];
 

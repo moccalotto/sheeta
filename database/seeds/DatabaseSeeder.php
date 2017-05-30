@@ -16,7 +16,11 @@ class DatabaseSeeder extends Seeder
     {
         $sheetData = Yaml::parse(file_get_contents(base_path('sampleChar.yml')));
 
-        $user = factory(User::Class)->create();
+        $user = factory(User::Class)->create([
+            'email' => 'demo@sheeta.dev',
+            'password' => bcrypt('demo'),
+            'username' => 'DemoUser',
+        ]);
 
         factory(Sheet::class)->create(array_merge(
             $sheetData,

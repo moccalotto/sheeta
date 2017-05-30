@@ -2,12 +2,16 @@
 import axios from 'axios';
 window.axios = axios;
 window.axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest'
+    'X-Requested-With': 'XMLHttpRequest',
+    'Accept': 'application/json',
 };
 
 // Import Moment lib for nice and relative dates.
 import moment from 'moment';
 window.moment = moment;
+
+import lodash from 'lodash';
+window._ = lodash;
 
 // Import Vue to create our awesome spa.
 import Vue from 'vue';
@@ -21,6 +25,7 @@ Vue.component('item-paginator', require('./components/ItemPaginator'));
 Vue.component('sheet-list', require('./components/SheetList'));
 Vue.component('flash-list', require('./components/FlashList'));
 Vue.component('context-menu', require('./components/ContextMenu'));
+Vue.component('auth-box', require('./components/AuthBox'));
 
 
 Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader'));

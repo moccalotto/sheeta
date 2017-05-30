@@ -7,7 +7,7 @@ clone_count: 0
 clone_level: 0
 tables:
   - headline: Harall
-    visible_headline: false
+    visible_headline: true
     visible_headers: false
     width: 3
     min_rows: 3
@@ -21,7 +21,6 @@ tables:
         max_length: 30
         width: 9
     rows:
-      - [Name, Harall]
       - [Player, Kim]
       - [Discipline, Troubardour]
       - [Race, Dwarf]

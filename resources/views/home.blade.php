@@ -9,16 +9,24 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <section class="hero is-primary">
+
             <div class="hero-body">
                 <div class="container">
-                    <h1 class="title">
-                        Sheeta
-                    </h1>
-                    <h2 class="subtitle">
-                        All your stuff on pretty paper.
-                    </h2>
+                    <div class="columns is-vcentered">
+                        <div class="column">
+                            <p class="title">
+                                Sheeta
+                            </p>
+                            <p class="subtitle">
+                                All your stuff on pretty paper
+                            </p>
+                        </div>
+                        <div class="column is-narrow">
+                            <auth-box></auth-box>
+                        </div>
+                    </div>
                 </div>
             </div>
             <router-view name="tabs"></router-view>

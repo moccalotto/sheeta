@@ -13,7 +13,7 @@
 
         <div class="columns is-multiline">
 
-            <div v-for="table, tableIdx in sheet.tables" :class="classForColumn(table)">
+            <div v-for="table, tableIdx in sheet.tables" :class="classForTableColumn(table)">
                 <table class="table">
                     <caption class="title is-3" v-show="table.visible_headline">
                         {{ table.headline }}
@@ -57,6 +57,7 @@
         data() {
             return {
                 sheet: null,
+                cellChanged: null,
                 loading: true,
                 edit: {
                     event: null,
@@ -68,9 +69,7 @@
         },
         created() {
             this.fetch();
-        },
-        methods: {
-            cellChanged(newValue, tableIdx, rowIdx, colIdx) {
+            this.cellChanged = _.debounce( (newValue, tableIdx, rowIdx, colIdx) => {
                 const col = this.sheet.tables[tableIdx].columns[colIdx];
 
                 if (col.format == 'number') {
@@ -85,10 +84,31 @@
                     newValue = col.min_value;
                 }
 
-                console.log(newValue);
+                const patchData = {
+                    version: this.sheet.version,
+                    path: ['tables', tableIdx, 'rows', rowIdx, colIdx],
+                    value: newValue,
+                };
 
-                this.sheet.tables[tableIdx].rows[rowIdx][colIdx] = newValue;
-            },
+                axios.patch(`/api/sheets/${this.id}`, patchData).then( ( {data} ) => {
+                    this.sheet.version = data.version;
+                    this.sheet.tables[tableIdx].rows[rowIdx][colIdx] = newValue;
+                }).catch ( (error) => {
+                    switch (error.response.status) {
+                        case 401:
+                            flash('danger', 'You are not allowed to edit this sheet!', 3000);
+                            break;
+                        case 403:
+                            flash('danger', 'You need to be signed in to see this sheet.', 3000);
+                            break;
+                        default:
+                            flash('danger', `You cannot edit this sheet: ${error.message}`, 3000);
+                            break;
+                    }
+                });
+            }, 500);
+        },
+        methods: {
             styleForCol(col) {
                 if (col.width || false) {
                     return {
@@ -96,15 +116,12 @@
                     }
                 }
             },
-            classForColumn(table) {
-                let res = { column: true, };
-
+            classForTableColumn(table) {
                 if (table.width || false) {
-                    res[`is-${table.width}`] = true
-                } else {
+                    return ['column', `is-${table.width}`];
                 }
+                return ['column'];
 
-                return res;
             },
             fetch() {
                 this.loading = true;

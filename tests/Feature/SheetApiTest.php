@@ -56,7 +56,7 @@ class SheetApiTest extends TestCase
             ->assertStatus(404)
             ->assertJsonStructure(['error']);
 
-        $this->json('PUT', 'api/sheets/foo', [])
+        $this->json('PATCH', 'api/sheets/42', [])
             ->assertStatus(404)
             ->assertJsonStructure(['error']);
     }
