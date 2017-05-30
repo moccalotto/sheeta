@@ -96,10 +96,10 @@
                 }).catch ( (error) => {
                     switch (error.response.status) {
                         case 401:
-                            flash('danger', 'You are not allowed to edit this sheet!', 3000);
+                            flash('danger', 'You need to be signed in to see this sheet.', 3000);
                             break;
                         case 403:
-                            flash('danger', 'You need to be signed in to see this sheet.', 3000);
+                            flash('danger', 'You are not allowed to edit this sheet!', 3000);
                             break;
                         default:
                             flash('danger', `You cannot edit this sheet: ${error.message}`, 3000);
@@ -131,10 +131,10 @@
                 }).catch ( (error) => {
                     switch (error.response.status) {
                         case 401:
-                            flash('danger', 'You are not allowed to see this sheet!', 3000);
+                            flash('danger', 'You need to be signed in to see this sheet.', 3000);
                             break;
                         case 403:
-                            flash('danger', 'You need to be signed in to see this sheet.', 3000);
+                            flash('danger', 'You are not allowed to see this sheet!', 3000);
                             break;
                         default:
                             flash('danger', `You cannot see this sheet: ${error.message}`, 3000);

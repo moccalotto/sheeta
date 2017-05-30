@@ -1,11 +1,19 @@
 <template>
     <pulse-loader v-if="loading"></pulse-loader>
     <div v-else-if="loggedIn">
-        <router-link :to="`/users/${user.username}`">{{ user.username }}</router-link>
-        <div class="field is-grouped is-grouped-right">
-            <p class="control">
-                <button @click.prevent.stop="logout" type="submit" class="button is-small is-info">Logout</button>
-            </p>
+        <div class="field is-horizontal">
+            <div class="field-label is-small">
+                <label class="label">
+                    <router-link :to="`/users/${user.username}`">{{ user.username }}</router-link>
+                </label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                    <p class="control">
+                        <button @click.prevent.stop="logout" type="submit" class="button is-small is-info">Logout</button>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <div v-else>
@@ -58,6 +66,7 @@
                     this.loading = false;
                     this.form = {};
                     flash('info', 'Logged in', 3000);
+                    window.eventBus.$emit('auth.login', this.user);
                 }).catch( (error) => {
                     this.loading = false;
                     this.form = {};
@@ -70,6 +79,7 @@
                     this.user = null;
                     this.loading = false;
                     flash('info', 'Logged out', 3000);
+                    window.eventBus.$emit('auth.logout', this.user);
                 }).catch( (error) => {
                     this.loading = false;
                     flash('danger', error.response.data.email || 'Cannot logout', 3000);
