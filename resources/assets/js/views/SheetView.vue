@@ -33,10 +33,17 @@
                             :key="colIdx"
                             :value="col"
                             :cell="table.columns[colIdx]"
-                            :readonly="true"
+                            :editable="sheet.editable_by_current_user"
                             @changed="cellChanged($event.target.value, tableIdx, rowIdx, colIdx)"
                             ></view-cell>
                         </tr>
+                        <template v-if="table.allow_newlines">
+                            <tr>
+                                <td :colspan="table.columns.length">
+                                    Add new row
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
@@ -69,6 +76,9 @@
         },
         created() {
             this.fetch();
+            window.eventBus.$on('auth.login', () => { this.fetch() });
+            window.eventBus.$on('auth.logout', () => { this.fetch() });
+
             this.cellChanged = _.debounce( (newValue, tableIdx, rowIdx, colIdx) => {
                 const col = this.sheet.tables[tableIdx].columns[colIdx];
 

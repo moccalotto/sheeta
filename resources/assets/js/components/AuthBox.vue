@@ -67,6 +67,7 @@
                     this.form = {};
                     flash('info', 'Logged in', 3000);
                     window.eventBus.$emit('auth.login', this.user);
+                    window.eventBus.$emit('auth.state', this.user);
                 }).catch( (error) => {
                     this.loading = false;
                     this.form = {};
@@ -80,6 +81,7 @@
                     this.loading = false;
                     flash('info', 'Logged out', 3000);
                     window.eventBus.$emit('auth.logout', this.user);
+                    window.eventBus.$emit('auth.state', this.user);
                 }).catch( (error) => {
                     this.loading = false;
                     flash('danger', error.response.data.email || 'Cannot logout', 3000);
@@ -90,6 +92,7 @@
             axios.get('api/users/me').then( ({data}) => {
                 this.user = data.user;
                 this.loading = false;
+                window.eventBus.$emit('auth.state', this.user);
             }).catch( (error) => {
                 flash('danger', error.response.data.email || 'Cannot authenticate!', 3000);
             });

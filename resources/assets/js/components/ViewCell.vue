@@ -1,7 +1,7 @@
 <template>
     <td>
         <div :class="outerClass">
-            <input v-if="cell.is_edit"
+            <input v-if="canEdit"
             :type="inputType"
             :value="value"
             :min="cell.min_value"
@@ -17,12 +17,15 @@
 </template>
 <script>
     export default {
-        props: ['cell', 'value', 'readonly'],
+        props: ['cell', 'value', 'editable'],
         computed: {
+            canEdit() {
+                return this.cell.is_edit && this.editable;
+            },
             outerClass() {
                 return {
                     'strong': !! this.cell.is_header,
-                    'field': !! this.cell.is_edit,
+                    'field': !! this.canEdit,
                 }
             },
             inputClass() {

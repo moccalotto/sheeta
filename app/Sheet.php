@@ -2,10 +2,10 @@
 
 namespace App;
 
+use DB;
+use Gate;
 use Moccalotto\Valit\Facades\Ensure;
 use Illuminate\Database\Eloquent\Model;
-
-use DB;
 
 class Sheet extends Model
 {
@@ -40,7 +40,7 @@ class Sheet extends Model
     /**
      * @var array
      */
-    protected $appends = ['slug'];
+    protected $appends = ['slug', 'editable_by_current_user'];
 
     /**
      * @var string
@@ -50,6 +50,11 @@ class Sheet extends Model
     public function getSlugAttribute()
     {
         return str($this->headline)->slug()->string();
+    }
+
+    public function getEditableByCurrentUserAttribute()
+    {
+        return Gate::allows('update', $this);
     }
 
     public function canBeClonedBy(User $user)

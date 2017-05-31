@@ -9,25 +9,7 @@ const routes = [
         path: '/sheets/:id',
         components: {
             default: require('./views/SheetView'),
-            tabs: {
-                template: `<div class="hero-foot">
-                <div class="container">
-                    <nav class="tabs is-boxed">
-                        <ul>
-                            <li class="is-active">
-                                <a href="#">View</a>
-                            </li>
-                            <li>
-                                <a href="#">Design</a>
-                            </li>
-                            <li>
-                                <a href="#">Settings</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>`
-            }
+            tabs: require('./views/SheetTabs'),
         },
         props: { default: true, tabs: true },
     },
