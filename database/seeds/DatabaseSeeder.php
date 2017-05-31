@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@demo.dev',
             'password' => bcrypt('demo'),
             'username' => 'DemoAdmin',
+            'type' => 'super',
         ]);
 
         $sheetData = Yaml::parse(file_get_contents(base_path('sampleChar.yml')));
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@demo.dev',
             'password' => bcrypt('demo'),
             'username' => 'DemoUser',
+            'type' => 'user',
         ]);
 
         factory(Sheet::class)->create(array_merge(
