@@ -14,10 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        factory(User::Class)->create([
+            'email' => 'admin@demo.dev',
+            'password' => bcrypt('demo'),
+            'username' => 'DemoAdmin',
+        ]);
+
         $sheetData = Yaml::parse(file_get_contents(base_path('sampleChar.yml')));
 
         $user = factory(User::Class)->create([
-            'email' => 'demo@demo.dev',
+            'email' => 'user@demo.dev',
             'password' => bcrypt('demo'),
             'username' => 'DemoUser',
         ]);

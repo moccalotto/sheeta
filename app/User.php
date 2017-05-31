@@ -29,4 +29,22 @@ class User extends Authenticatable
     protected $casts = [
         'id' => 'integer',
     ];
+
+    /**
+     * Constructor
+     */
+    public function __construct(...$args)
+    {
+        parent::__construct(...$args);
+
+        if (empty($this->type)) {
+            $this->type = 'user';
+        }
+    }
+
+
+    public function isSuperAdmin()
+    {
+        return $this->type == 'super';
+    }
 }
