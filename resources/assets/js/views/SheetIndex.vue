@@ -23,6 +23,9 @@
 
 <script>
     export default {
+        components: {
+            'sheet-list': require('../components/SheetList'),
+        },
         data() {
             return {
                 loading:        false,

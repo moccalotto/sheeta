@@ -8,6 +8,9 @@
 
 <script>
     export default {
+        components: {
+            'sheet-card': require('./SheetCard'),
+        },
         props: {
             sheets: {
                 type: Array,

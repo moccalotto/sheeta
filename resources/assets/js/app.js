@@ -9,7 +9,6 @@ window.eventBus = new Vue({
 });
 
 window.eventBus.$on('auth.state', (user) => {
-    console.log(user);
     eventBus.user = user;
     eventBus.loggedIn = !! user;
 });

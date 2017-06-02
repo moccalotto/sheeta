@@ -32,9 +32,6 @@
                         <i class="fa fa-lock"></i>
                     </span>
                 </p>
-            </div>
-
-            <div class="field is-grouped is-grouped-right">
 
                 <p class="control">
                     <button type="submit" class="button is-small is-info">Log in</button>
@@ -65,9 +62,9 @@
                     this.user = data.user;
                     this.loading = false;
                     this.form = {};
-                    flash('info', 'Logged in', 3000);
                     window.eventBus.$emit('auth.login', this.user);
                     window.eventBus.$emit('auth.state', this.user);
+                    flash('info', 'Logged in', 3000);
                 }).catch( (error) => {
                     this.loading = false;
                     this.form = {};
@@ -79,9 +76,9 @@
                 axios.post('api/users/logout', this.form).then( ({data}) => {
                     this.user = null;
                     this.loading = false;
+                    window.eventBus.$emit('auth.logout', null);
+                    window.eventBus.$emit('auth.state', null);
                     flash('info', 'Logged out', 3000);
-                    window.eventBus.$emit('auth.logout', this.user);
-                    window.eventBus.$emit('auth.state', this.user);
                 }).catch( (error) => {
                     this.loading = false;
                     flash('danger', error.response.data.email || 'Cannot logout', 3000);

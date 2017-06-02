@@ -19,12 +19,9 @@ import VueRouter from 'vue-router';
 
 window.Vue = Vue;
 window.Vue.use(VueRouter);
-Vue.component('sheet-card', require('./components/SheetCard'));
 Vue.component('relative-date', require('./components/RelativeDate'));
 Vue.component('item-paginator', require('./components/ItemPaginator'));
-Vue.component('sheet-list', require('./components/SheetList'));
 Vue.component('flash-list', require('./components/FlashList'));
-Vue.component('context-menu', require('./components/ContextMenu'));
 Vue.component('auth-box', require('./components/AuthBox'));
 
 
