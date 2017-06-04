@@ -12,22 +12,46 @@ tables:
     min_rows: 3
     max_rows: 3
     columns:
-      - headline: Project
+      - headline: Category
       - headline: Thing
       - headline: Complete At
     rows:
-      - - Sheeta
+      - - Feature
         - Add »squashable« feature for columns.
           Enable columns with extremely long text to have a small preview.
           The long text will be shown in a modal in its entirety.
-      - - Sheeta
+      - - Feature
+        - Add a "sortable" property to tables or columns.
+          Possibly hint if we should sort by date, text or number.
+      - - Feature
         - Eanble cell-level customization for advanced tables.
           In order to build the perfect character sheet, we
           need tables where each cell in a column has different
           properties; some may be editable, some may not.
-      - - Sheeta
+          Cells should only be customizable if the column is marked
+          as "customizable". For instance. it would be impossible to
+          sort or filter a customizable column.
+      - - Feature
         - Date and DateTime cell/column datatypes.
-      - - BinLad
+      - - Feature
+        - Support for filtering/searching in columns.
+          Of course this should be optional.
+      - - UI
+        - Support for advanced UI. Placing tables inside pre-defined areas.
+          Maybe add an "areas" section to the Sheet. Each area has a name/id and
+          a set of attributes. Each table then resides in the area - possibly ordered
+          by some kind of cardinality.
+  - headline: BinLad
+    visible_headline: true
+    visible_headers: false
+    min_rows: 3
+    max_rows: 3
+    columns:
+      - headline: Category
+      - headline: Thing
+      - headline: Complete At
+    rows:
+      - - Feature
         - Proxy support.
           Make a http request to the proxy server and return its response.
           Also store the request/response-pair
