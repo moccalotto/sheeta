@@ -1,0 +1,33 @@
+version: 1
+headline: My TODO
+visible_headline: true
+allow_clone: false  # should we allow other people to copy this and use it for themselves ?
+allow_view: false  # should we allow (other) people to see this sheet?
+clone_count: 0
+clone_level: 0
+tables:
+  - headline: Sheeta
+    visible_headline: true
+    visible_headers: false
+    min_rows: 3
+    max_rows: 3
+    columns:
+      - headline: Project
+      - headline: Thing
+      - headline: Complete At
+    rows:
+      - - Sheeta
+        - Add »squashable« feature for columns.
+          Enable columns with extremely long text to have a small preview.
+          The long text will be shown in a modal in its entirety.
+      - - Sheeta
+        - Eanble cell-level customization for advanced tables.
+          In order to build the perfect character sheet, we
+          need tables where each cell in a column has different
+          properties; some may be editable, some may not.
+      - - Sheeta
+        - Date and DateTime cell/column datatypes.
+      - - BinLad
+        - Proxy support.
+          Make a http request to the proxy server and return its response.
+          Also store the request/response-pair

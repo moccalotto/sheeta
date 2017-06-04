@@ -3,7 +3,6 @@
 use App\User;
 use App\Sheet;
 use Illuminate\Database\Seeder;
-use Symfony\Component\Yaml\Yaml;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,23 +14,27 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory(User::Class)->create([
-            'email' => 'admin@demo.dev',
+            'email' => 'admin@sheeta.dev',
             'password' => bcrypt('demo'),
             'username' => 'DemoAdmin',
             'type' => 'super',
         ]);
 
-        $sheetData = Yaml::parse(file_get_contents(base_path('sampleChar.yml')));
 
         $user = factory(User::Class)->create([
-            'email' => 'user@demo.dev',
+            'email' => 'user@sheeta.dev',
             'password' => bcrypt('demo'),
             'username' => 'DemoUser',
             'type' => 'user',
         ]);
 
         factory(Sheet::class)->create(array_merge(
-            $sheetData,
+            yaml_parse(file_get_contents(base_path('sampleChar.yml'))),
+            ['user_id' => $user->id]
+        ));
+
+        factory(Sheet::class)->create(array_merge(
+            yaml_parse(file_get_contents(base_path('sampleTodo.yml'))),
             ['user_id' => $user->id]
         ));
 
