@@ -14,7 +14,7 @@
         <div class="columns is-multiline">
 
             <div v-for="table, tableIdx in sheet.tables" :class="classForTableColumn(table)">
-                <table-view @row-added="rowAdded(tableIdx)" :editable="sheet.editable_by_user" :table="table"></table-view>
+                <table-view @row-added="rowAdded(tableIdx)" :editable="sheet.editable_by_current_user" :table="table"></table-view>
             </div>
         </div>
     </div>
