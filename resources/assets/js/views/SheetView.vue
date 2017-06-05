@@ -14,38 +14,7 @@
         <div class="columns is-multiline">
 
             <div v-for="table, tableIdx in sheet.tables" :class="classForTableColumn(table)">
-                <table class="table">
-                    <caption class="title is-3" v-show="table.visible_headline">
-                        {{ table.headline }}
-                    </caption>
-                    <colgroup>
-                        <col v-for="col in table.columns" :style="styleForCol(col)">
-                    </colgroup>
-                    <thead v-show="table.visible_headers">
-                        <th v-for="col in table.columns">
-                            {{ col.headline }}
-                        </th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="row,rowIdx in table.rows">
-                            <view-cell
-                            v-for="col,colIdx in row"
-                            :key="colIdx"
-                            :value="col"
-                            :cell="table.columns[colIdx]"
-                            :editable="sheet.editable_by_current_user"
-                            @changed="cellChanged($event.target.value, tableIdx, rowIdx, colIdx)"
-                            ></view-cell>
-                        </tr>
-                        <template v-if="table.allow_newlines">
-                            <tr>
-                                <td :colspan="table.columns.length">
-                                    Add new row
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
+                <table-view @row-added="rowAdded(tableIdx)" :editable="sheet.editable_by_user" :table="table"></table-view>
             </div>
         </div>
     </div>
@@ -54,15 +23,14 @@
 </template>
 
 <script>
-    import ViewCell from '../components/ViewCell';
+    import TableView from '../components/TableView';
 
     export default {
         props: ['id', 'slug'],
-        components: {
-            'view-cell': ViewCell,
-        },
+        components: { TableView },
         data() {
             return {
+                add: { },
                 sheet: null,
                 cellChanged: null,
                 loading: true,
@@ -119,12 +87,16 @@
             }, 500);
         },
         methods: {
-            styleForCol(col) {
-                if (col.width || false) {
-                    return {
-                        width: (100 * col.width / 12) + '%'
-                    }
+            rowAdded(tableIdx, event) {
+                console.log(event);
+                console.log(this.sheet.tables[tableIdx].rows);
+                this.sheet.tables[tableIdx].rows.push(event.row);
+            },
+            newCellChanged(value, tableIdx, colIdx) {
+                if (!this.add[tableIdx]) {
+                    this.add[tableIdx] = { }
                 }
+                this.add[tableIdx][colIdx] = value;
             },
             classForTableColumn(table) {
                 if (table.width || false) {

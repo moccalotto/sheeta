@@ -7,6 +7,7 @@
             :min="cell.min_value"
             :max="cell.max_value"
             :pattern="cell.validation"
+            :caption="cell.headline"
             @input="$emit('changed', $event)"
             :class="inputClass">
             <div v-else :class="textClass">
@@ -17,10 +18,17 @@
 </template>
 <script>
     export default {
-        props: ['cell', 'value', 'editable'],
+        props: ['cell', 'value', 'editMode'],
         computed: {
             canEdit() {
-                return this.cell.is_edit && this.editable;
+                if (this.editMode == 'force') {
+                    return true;
+                }
+                if (this.editMode == 'cell') {
+                    return !! this.cell.is_edit;
+                }
+
+                return false;
             },
             outerClass() {
                 return {

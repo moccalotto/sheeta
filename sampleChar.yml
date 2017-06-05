@@ -127,7 +127,7 @@ tables:
     width: 12
     visible_headline: true
     visible_headers: true
-    allow_newlines: true
+    add_rows: true
     columns:
       - headline: Item
       - headline: Description
