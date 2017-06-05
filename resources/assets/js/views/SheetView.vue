@@ -42,6 +42,9 @@
                 }
             };
         },
+        watch: {
+            '$route': 'fetch',
+        },
         created() {
             this.fetch();
             window.eventBus.$on('auth.login', () => { this.fetch() });
