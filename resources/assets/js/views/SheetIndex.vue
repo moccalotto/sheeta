@@ -46,6 +46,8 @@
         },
         created() {
             this.fetchSheets();
+            window.eventBus.$on('auth.login', () => { this.fetchSheets() });
+            window.eventBus.$on('auth.logout', () => { this.fetchSheets() });
         },
         methods: {
             changeRoute(newFilter, newPage) {
