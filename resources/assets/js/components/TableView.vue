@@ -18,8 +18,7 @@
                 :key="colIdx"
                 :value="col"
                 :cell="table.columns[colIdx]"
-                :edit-mode="editable ? 'cell' : false"
-                @changed="cellChanged($event.target.value, tableIdx, rowIdx, colIdx)"
+                @changed="cellChanged($event, rowIdx, colIdx)"
                 ></view-cell>
         </tr>
         <template v-if="table.add_rows">
@@ -43,6 +42,16 @@
         props: ['table', 'editable'],
         components: { ViewCell },
         methods: {
+            cellChanged($event, rowIdx, colIdx) {
+                const value = $event.target.value;
+                if ($event.target.validity.valid) {
+                    this.$emit('cell-changed', {
+                        value,
+                        rowIdx,
+                        colIdx,
+                    });
+                }
+            },
             styleForCol(col) {
                 if (col.width || false) {
                     return {

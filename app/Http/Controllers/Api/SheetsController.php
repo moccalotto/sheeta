@@ -15,17 +15,22 @@ class SheetsController extends Controller
      */
     public function search(Request $request)
     {
-        return Sheet::where(
-            'headline',
-            'like',
-            preg_replace('/^|$|\s+/u', '%', $request->input('headline'))
-        )->where(function ($query) use ($request) {
-            $query->where('allow_view', true);
-            if ($request->user()) {
-                $query->orWhere('user_id', $request->user()->id);
-            }
-        }) ->orderBy('id', 'asc')
-        ->paginate($request->input('page-size', 15));
+        $pattern = preg_replace('/^|$|\s+/u', '%', $request->input('headline'));
+        return Sheet::where('headline', 'like', $pattern)
+            ->where(function ($query) use ($request) {
+                if (!$request->user()) {
+                    return $query->where('allow_view', true);
+                }
+
+                if ($request->user()->isSuperAdmin()) {
+                    return;
+                }
+
+                return $query->where('allow_view', true)
+                    ->orWhere('user_id', $request->user()->id);
+            })
+            ->orderBy('id', 'asc')
+            ->paginate($request->input('page-size', 15));
     }
 
     /**
