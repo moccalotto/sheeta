@@ -40,7 +40,7 @@ class SheetClassTest extends TestCase
      */
     public function it_can_be_patched()
     {
-        $sheet = factory(Sheet::class)->create([
+        $sheet = factory(Sheet::class)->make([
             'version' => 1,
             'allow_view' => true,
             'allow_clone' => false,

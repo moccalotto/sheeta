@@ -116,26 +116,23 @@ class Sheet extends Model
         if ($first === 'headline') {
             Ensure::that($path)->isEmptyArray();
             Ensure::that($value)->isString()->longerThan(0);
+            $this->version += $this->headline != $value;
             $this->headline = $value;
-            $this->version += $this->isDirty();
-            $this->save();
             return;
         }
 
         if ($first === 'allow_clone') {
             Ensure::that($path)->isEmptyArray();
             Ensure::that($value)->isBoolean(0);
+            $this->version += $this->allow_clone != $value;
             $this->allow_clone = $value;
-            $this->version += $this->isDirty();
-            $this->save();
             return;
         }
         if ($first === 'allow_view') {
             Ensure::that($path)->isEmptyArray();
             Ensure::that($value)->isBoolean(0);
+            $this->version += $this->allow_view != $value;
             $this->allow_view = $value;
-            $this->version += $this->isDirty();
-            $this->save();
             return;
         }
 
