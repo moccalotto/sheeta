@@ -8,6 +8,8 @@ window.eventBus = new Vue({
     },
 });
 
+document.addEventListener('click', () => { window.eventBus.$emit('click') });
+
 window.eventBus.$on('auth.state', (user) => {
     eventBus.user = user;
     eventBus.loggedIn = !! user;

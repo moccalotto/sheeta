@@ -16,7 +16,9 @@
             <div v-for="table, tableIdx in sheet.tables" :class="classForTableColumn(table)">
                 <table-view
                     @cell-changed="cellChanged(tableIdx, $event)"
-                    :editable="sheet.editable_by_current_user"
+                    @cell-clicked="cellClicked(tableIdx, $event)"
+                    :edit="edit.tableIdx == tableIdx ? edit : {}"
+                    :user-can-edit="sheet.editable_by_current_user"
                     :table="table"></table-view>
             </div>
         </div>
@@ -33,7 +35,11 @@
         components: { TableView },
         data() {
             return {
-                add: { },
+                edit: {
+                    tableIdx: null,
+                    rowIdx: null,
+                    colIdx: null,
+                },
                 sheet: null,
                 cellChanged: null,
                 loading: true,
@@ -46,6 +52,7 @@
             this.fetch();
             window.eventBus.$on('auth.login', () => { this.fetch() });
             window.eventBus.$on('auth.logout', () => { this.fetch() });
+            window.eventBus.$on('click', () => { this.edit.tableIdx = null; });
 
             this.cellChanged = _.debounce( (tableIdx, { value, rowIdx, colIdx } ) => {
                 const col = this.sheet.tables[tableIdx].columns[colIdx];
@@ -87,6 +94,17 @@
             }, 500);
         },
         methods: {
+            cellClicked(tableIdx, { rowIdx, colIdx }) {
+                if (this.sheet.tables[tableIdx].is_editable) {
+                    this.edit.tableIdx = tableIdx;
+                    this.edit.rowIdx = rowIdx;
+                    this.edit.colIdx = colIdx;
+                } else {
+                    this.edit.tableIdx = null;
+                    this.edit.rowIdx = null;
+                    this.edit.colIdx = null;
+                }
+            },
             classForTableColumn(table) {
                 if (table.width || false) {
                     return ['column', `is-${table.width}`];

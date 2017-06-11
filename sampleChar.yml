@@ -13,11 +13,11 @@ tables:
     min_rows: 3
     max_rows: 3
     columns:
-      - headline: Key
+      - size: huge
         readonly: true
         width: 3
         is_header: true
-      - headline: Value
+      - size: huge
         max_length: 30
         width: 9
     rows:
@@ -30,11 +30,10 @@ tables:
     min_rows: 3
     max_rows: 3
     columns:
-      - headline: Defense
+      - size: huge
         readonly: true
         width: 10
-        is_header: true
-      - headline: Score
+      - size: huge
         width: 2
         format: "number"
         validation: '^\d+$'
@@ -52,7 +51,7 @@ tables:
     columns:
       - headline: Type
         readonly: true
-        is_large: true
+        size: large
         width: 6
         is_header: true
       - headline: Amount
@@ -77,7 +76,7 @@ tables:
         is_header: true
       - headline: Value
         min_value: 0
-        is_large: true
+        size: huge
         is_editable: true
         format: "number"
         validation: '^\d+$'
@@ -127,10 +126,12 @@ tables:
     width: 12
     visible_headline: true
     visible_headers: true
-    add_rows: true
+    is_editable: true
     columns:
       - headline: Item
+        width: 3
       - headline: Description
+        width: 7
       - headline: Value
         width: 2
     rows:
