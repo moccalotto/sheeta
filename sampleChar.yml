@@ -134,6 +134,7 @@ tables:
         width: 7
       - headline: Value
         width: 2
+        validation: '(\d+(pp|gp|sp|cp))|(N\/A)'
     rows:
       - [Armor, awesome chainmail, 500sp]
       - [Boots, haste, 1225sp]
