@@ -17,9 +17,10 @@ tables:
       - headline: Complete At
     rows:
       - - Feature
-        - Add »squashable« feature for columns.
+        - Add »truncate« feature for columns.
           Enable columns with extremely long text to have a small preview.
           The long text will be shown in a modal in its entirety.
+          Also, »long« texts should be edited as textareas, not input fields.
       - - Feature
         - Allow easy addition of new rows on certain tables.
           When this feature is enabled on a table, you should always have a
