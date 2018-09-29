@@ -18,9 +18,7 @@
         "moment": "^2.18.1",
         "vue": "^2.5.7",
         "vue-router": "^2.5.3",
+        "vue-spinner": "^1.0.3",
         "watch": "^1.0.2"
-    },
-    "dependencies": {
-        "vue-spinner": "^1.0.3"
     }
 }
