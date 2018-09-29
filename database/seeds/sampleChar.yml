@@ -1,3 +1,12 @@
+# TODO:
+# column.is_editable should be replaced by
+# a field called column.edit with these possible values:
+#     never       Cells in this column cannot be edited
+#     always      Cells in this column are always editable (input field always shown)
+#     on-demand   Cells in this column are edited on demand (input field shows up when cell is clicked)
+#
+# table.is_editable should be removed
+
 version: 1
 headline: FooBarBaz
 visible_headline: false
