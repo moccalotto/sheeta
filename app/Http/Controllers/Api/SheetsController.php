@@ -64,6 +64,7 @@ class SheetsController extends Controller
             ], 400);
         }
 
+        // Optimistic lock
         if ($sheet->version !== $request->input('version')) {
             return response()->json([
                 'error' => 'Version conflict',
@@ -74,7 +75,7 @@ class SheetsController extends Controller
                 ),
                 'expectedVersion' => $sheet->version,
                 'gotVersion' => $request->input('version'),
-            ]);
+            ], 400);
         }
 
         $sheet->applyPatch(

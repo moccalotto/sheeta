@@ -4,7 +4,7 @@ namespace App;
 
 use DB;
 use Gate;
-use Moccalotto\Valit\Facades\Ensure;
+use Valit\Ensure;
 use Illuminate\Database\Eloquent\Model;
 
 class Sheet extends Model

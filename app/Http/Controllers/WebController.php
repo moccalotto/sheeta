@@ -8,7 +8,6 @@ class WebController extends Controller
 {
     public function home()
     {
-        dump('pæk');
         return view('home');
     }
 }
