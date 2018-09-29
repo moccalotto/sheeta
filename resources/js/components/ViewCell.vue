@@ -66,8 +66,8 @@
             },
             outerClass() {
                 return {
-                    'strong': !! this.column.is_header,
-                    'field': !! this.column.is_editable,
+                    'strong': !! (this.column && this.column.is_header),
+                    'field': !! (this.column && this.column.is_editable),
                 }
             },
             inputClass() {

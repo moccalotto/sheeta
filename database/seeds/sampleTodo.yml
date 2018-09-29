@@ -16,37 +16,52 @@ tables:
       - headline: Thing
       - headline: Complete At
     rows:
-      - - Feature
-        - Add »truncate« feature for columns.
+      - 
+        - Feature
+        - |-
+          Add »truncate« feature for columns.
           Enable columns with extremely long text to have a small preview.
           The long text will be shown in a modal in its entirety.
           Also, »long« texts should be edited as textareas, not input fields.
-      - - Feature
-        - Allow easy addition of new rows on certain tables.
+      - 
+        - Feature
+        - |-
+          Allow easy addition of new rows on certain tables.
           When this feature is enabled on a table, you should always have a
           »delete row« icon on each row.
           Also a set of up/down icons to move the rows up and down.
           The "click to make inline edits" should also be available on the table.
-      - - Feature
-        - Allow edit-on-click feature on certain tables (or possible even cells).
-      - - Feature
-        - Add a "sortable" property to tables or columns.
+      - 
+        - Feature
+        - |-
+          Allow edit-on-click feature on certain tables (or possible even cells).
+      - 
+        - Feature
+        - |-
+          Add a "sortable" property to tables or columns.
           Possibly hint if we should sort by date, text or number.
-      - - Feature
-        - Eanble cell-level customization for advanced tables.
+      - 
+        - Feature
+        - |-
+          Eanble cell-level customization for advanced tables.
           In order to build the perfect character sheet, we
           need tables where each cell in a column has different
           properties; some may be editable, some may not.
           Cells should only be customizable if the column is marked
           as "customizable". For instance. it would be impossible to
           sort or filter a customizable column.
-      - - Feature
+      - 
+        - Feature
         - Date and DateTime cell/column datatypes.
-      - - Feature
-        - Support for filtering/searching in columns.
+      - 
+        - Feature
+        - |-
+          Support for filtering/searching in columns.
           Of course this should be optional.
-      - - UI
-        - Support for advanced UI. Placing tables inside pre-defined areas.
+      - 
+        - UI
+        - |-
+          Support for advanced UI. Placing tables inside pre-defined areas.
           Maybe add an "areas" section to the Sheet. Each area has a name/id and
           a set of attributes. Each table then resides in the area - possibly ordered
           by some kind of cardinality.
@@ -60,7 +75,9 @@ tables:
       - headline: Thing
       - headline: Complete At
     rows:
-      - - Feature
-        - Proxy support.
+      - 
+        - Feature
+        - |-
+          Proxy support.
           Make a http request to the proxy server and return its response.
           Also store the request/response-pair
