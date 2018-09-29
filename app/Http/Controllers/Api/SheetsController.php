@@ -98,10 +98,10 @@ class SheetsController extends Controller
     public function put(Request $request, Sheet $sheet)
     {
         $validation = [
-            'headline' => 'string|max:60',
+            'headline'    => 'string|max:60',
             'allow_clone' => 'boolean',
-            'tables' => 'array',
-            'version' => 'required|int',
+            'tables'      => 'array',
+            'version'     => 'required|int',
         ];
 
         $validator = Validator::make($request->all(), $validation);
