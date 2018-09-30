@@ -16,14 +16,14 @@ tables:
       - headline: Thing
       - headline: Complete At
     rows:
-      - 
+      -
         - Feature
         - |-
           Add »truncate« feature for columns.
           Enable columns with extremely long text to have a small preview.
           The long text will be shown in a modal in its entirety.
           Also, »long« texts should be edited as textareas, not input fields.
-      - 
+      -
         - Feature
         - |-
           Allow easy addition of new rows on certain tables.
@@ -31,16 +31,16 @@ tables:
           »delete row« icon on each row.
           Also a set of up/down icons to move the rows up and down.
           The "click to make inline edits" should also be available on the table.
-      - 
+      -
         - Feature
         - |-
           Allow edit-on-click feature on certain tables (or possible even cells).
-      - 
+      -
         - Feature
         - |-
           Add a "sortable" property to tables or columns.
           Possibly hint if we should sort by date, text or number.
-      - 
+      -
         - Feature
         - |-
           Eanble cell-level customization for advanced tables.
@@ -50,15 +50,15 @@ tables:
           Cells should only be customizable if the column is marked
           as "customizable". For instance. it would be impossible to
           sort or filter a customizable column.
-      - 
+      -
         - Feature
         - Date and DateTime cell/column datatypes.
-      - 
+      -
         - Feature
         - |-
           Support for filtering/searching in columns.
           Of course this should be optional.
-      - 
+      -
         - UI
         - |-
           Support for advanced UI. Placing tables inside pre-defined areas.
@@ -75,7 +75,7 @@ tables:
       - headline: Thing
       - headline: Complete At
     rows:
-      - 
+      -
         - Feature
         - |-
           Proxy support.
