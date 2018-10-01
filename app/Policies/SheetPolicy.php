@@ -29,21 +29,19 @@ class SheetPolicy
     /**
      * Determine whether the user can create sheets.
      *
-     * @param  \App\User  $user
+     * @param  User  $user
      * @return mixed
-     *
-     * @SuppressWarnings("UnusedFormalParameter")
      */
-    public function create(User $user)
+    public function create(?User $user)
     {
-        return true;
+        return $user !== null;
     }
 
     /**
      * Determine whether the user can update the sheet.
      *
-     * @param  \App\User  $user
-     * @param  \App\Sheet  $sheet
+     * @param  User  $user
+     * @param  Sheet  $sheet
      * @return mixed
      */
     public function update(User $user, Sheet $sheet)
@@ -54,9 +52,11 @@ class SheetPolicy
     /**
      * Determine whether the user can clone the sheet.
      *
-     * @param  \App\User  $user
-     * @param  \App\Sheet  $sheet
+     * @param  User  $user
+     * @param  Sheet  $sheet
      * @return mixed
+     *
+     * @SuppressWarnings("UnusedFormalParameter")
      */
     public function clone(User $user, Sheet $sheet)
     {
@@ -70,11 +70,13 @@ class SheetPolicy
     /**
      * Determine whether the user can delete the sheet.
      *
-     * @param  \App\User  $user
-     * @param  \App\Sheet  $sheet
+     * @param  User  $user
+     * @param  Sheet  $sheet
      * @return mixed
+     *
+     * @SuppressWarnings("UnusedFormalParameter")
      */
-    public function delete(User $user, Sheet $sheet)
+    public function delete(?User $user, Sheet $sheet)
     {
         return false; // for now.
     }
