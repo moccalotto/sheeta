@@ -1,8 +1,5 @@
 <?php
 
-/*
- * Display the welcome screen.
- */
 Route::get('/', 'WebController@home')->name('home');
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
